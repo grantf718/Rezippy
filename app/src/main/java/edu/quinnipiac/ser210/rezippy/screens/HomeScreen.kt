@@ -4,7 +4,6 @@ import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -42,9 +41,12 @@ fun HomeScreen(){
             verticalArrangement = Arrangement.spacedBy(10.dp),
             modifier = Modifier
                 .fillMaxSize()
+                .padding(10.dp)
         ){
             item { RecipeCard("Burger 1") }
             item{ RecipeCard("Burger 2") }
+            item{ RecipeCard("Burger 3") }
+            item{ RecipeCard("Burger 4") }
         }
     }
 }
@@ -79,7 +81,7 @@ fun RecipeCard(name: String){
                 modifier = Modifier.weight(1f)
             ){
                 Text(
-                    text = "Burger",
+                    text = name,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
