@@ -111,8 +111,8 @@ fun NavBar(
 
     CenterAlignedTopAppBar(
         title = {
-            Text("Weather App",
-                color = MaterialTheme.colorScheme.onSecondary,
+            Text("Recipes",
+                color = MaterialTheme.colorScheme.onPrimary,
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold
             )
@@ -128,7 +128,7 @@ fun NavBar(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onSecondary,
+                            tint = MaterialTheme.colorScheme.onPrimary,
                             modifier = Modifier
                                 .size(32.dp)
                         )
@@ -138,7 +138,7 @@ fun NavBar(
             }
         },
         colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.secondary
+            containerColor = MaterialTheme.colorScheme.primary
         ),
         modifier = modifier
             .padding(bottom = 4.dp)
