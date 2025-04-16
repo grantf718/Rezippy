@@ -24,6 +24,7 @@ class RecipeViewModel : ViewModel() {
     // LiveData for random recipes
     private val _randomRecipesResult = MutableLiveData<Response<RandomRecipes>>()
     val randomRecipesResult: LiveData<Response<RandomRecipes>> = _randomRecipesResult
+    private var isRecipesFetched = false    // Used to prevent repeated https requests
 
     // LiveData for search by ingredients
     private val _recipesByIngredientResult = MutableLiveData<Response<RecipesByIngredient>>()
@@ -33,19 +34,28 @@ class RecipeViewModel : ViewModel() {
     private val _bulkRecipesResult = MutableLiveData<Response<BulkRecipes>>()
     val bulkRecipesResult: LiveData<Response<BulkRecipes>> = _bulkRecipesResult
 
+    // Get random recipes upon initialization
+    init {
+        Log.d("Init: ", "ViewModel initializing")
+        fetchRandomRecipes()
+    }
+
     // Fetch random recipes
-    fun fetchRandomRecipes(number: Int, tags: String) {
+    fun fetchRandomRecipes(number: Int = 2) {
+        if (isRecipesFetched) return
+
         viewModelScope.launch {
             try {
-                val response = recipeAPI.getRandomRecipes(number = number, tags = tags)
+                val response = recipeAPI.getRandomRecipes(number = number)
 
                 if (response.isSuccessful) {
                     Log.d("API response: ", response.body().toString())
                     _randomRecipesResult.value = response
                 }
                 else {
-                    Log.d("network error","Failed to load data")
+                    Log.d("Network Error","Failed to load data: ${response.code()}, ${response.errorBody()?.string()}")
                 }
+                isRecipesFetched = true;
             } catch (e : Exception) {
                 e.message?.let { Log.d("network error", it) }
             }
@@ -75,7 +85,7 @@ class RecipeViewModel : ViewModel() {
     fun fetchBulkRecipes(ids: String, includeNutrition: Boolean = false) {
         viewModelScope.launch {
             try {
-                val response = recipeAPI.getRecipesByIds(ids = ids, includeNutrition = includeNutrition)
+                val response = recipeAPI.getRecipesByIds(ids = ids)
 
                 if (response.isSuccessful) {
                     Log.d("API response: ", response.body().toString())

@@ -25,10 +25,13 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import coil3.compose.AsyncImage
 import edu.quinnipiac.ser210.rezippy.R
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.RandomRecipes
+import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.Recipe
 import edu.quinnipiac.ser210.rezippy.ui.theme.RezippyTheme
 
 @Composable
@@ -41,56 +44,59 @@ fun HomeScreen(
             .fillMaxSize()
     ){
         LazyColumn(
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .fillMaxSize()
-                .padding(10.dp)
+                .padding(16.dp)
         ){
-            item { RecipeCard("Burger 1") }
-            item{ RecipeCard("Burger 2") }
-            item{ RecipeCard("Burger 3") }
-            item{ RecipeCard("Burger 4") }
+            randomRecipes?.recipes?.forEach { recipe ->
+                item {
+                    RecipeCard(recipe)
+                }
+            }
         }
     }
 }
 
 @Composable
-fun RecipeCard(name: String){
+fun RecipeCard(recipe: Recipe){
     Card(
-        shape = RoundedCornerShape(30.dp),
-        border = BorderStroke(3.dp, MaterialTheme.colorScheme.primaryContainer), // border color
+        shape = RoundedCornerShape(28.dp),
+        border = BorderStroke(4.dp, MaterialTheme.colorScheme.primaryContainer), // border color
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.tertiary // entire card (but just the bottom of it shows, where the text is)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .height(270.dp)
-            .clip(RoundedCornerShape(30.dp))
+            .height(240.dp)
+            .clip(RoundedCornerShape(28.dp))
     ){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier = Modifier.fillMaxSize()
         ){
-            Image(
-                painter = painterResource(id = R.drawable.sample_image),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
+            AsyncImage(
+                model = recipe.image,
+                contentDescription = recipe.title,
+                contentScale = ContentScale.Crop,
                 modifier = Modifier
                     .weight(5f)
             )
             Box(
                 contentAlignment = Alignment.Center,
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(2f)
             ){
                 Text(
-                    text = name,
+                    text = recipe.title,
                     style = MaterialTheme.typography.bodyLarge,
                     color = MaterialTheme.colorScheme.primary,
                     modifier = Modifier
                         .fillMaxSize()
                         .padding(horizontal = 10.dp),
-                    textAlign = TextAlign.Center
+                    textAlign = TextAlign.Center,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
                 )
             }
         }
@@ -110,7 +116,8 @@ fun RecipeCard(name: String){
 @Composable
 fun RecipeCardPreview(){
     RezippyTheme{
-        RecipeCard("Burger")
+        //Not sure how we are going to preview this yet
+        //RecipeCard()
     }
 }
 
