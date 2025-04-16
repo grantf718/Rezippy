@@ -3,6 +3,7 @@ package edu.quinnipiac.ser210.rezippy.screens
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -26,14 +27,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import edu.quinnipiac.ser210.rezippy.ui.theme.AppTheme
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.RandomRecipes
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.Recipe
+import edu.quinnipiac.ser210.rezippy.navigation.Screens
 
 @Composable
 fun HomeScreen(
-    randomRecipes: RandomRecipes?
+    randomRecipes: RandomRecipes?,
+    navController: NavController,
+    modifier: Modifier = Modifier
 ){
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
@@ -48,7 +53,12 @@ fun HomeScreen(
         ){
             randomRecipes?.recipes?.forEach { recipe ->
                 item {
-                    RecipeCard(recipe)
+                    RecipeCard(
+                        recipe = recipe,
+                        modifier = Modifier
+                    ) {
+                        navController.navigate(route = Screens.DetailScreen.name+"/${recipe.title}")
+                    }
                 }
             }
         }
@@ -56,7 +66,11 @@ fun HomeScreen(
 }
 
 @Composable
-fun RecipeCard(recipe: Recipe){
+fun RecipeCard(
+    recipe: Recipe,
+    modifier: Modifier = Modifier,
+    onItemClick: (String) -> Unit = {}
+){
     Card(
         shape = RoundedCornerShape(28.dp),
         border = BorderStroke(4.dp, MaterialTheme.colorScheme.secondary), // border color
@@ -68,6 +82,9 @@ fun RecipeCard(recipe: Recipe){
             .fillMaxWidth()
             .height(240.dp)
             .clip(RoundedCornerShape(28.dp))
+            .clickable {
+                onItemClick(recipe.title)
+            }
     ){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -130,5 +147,5 @@ fun RecipeCardPreview(){
 )
 @Composable
 fun Preview(){
-    AppTheme { HomeScreen(randomRecipes = null) }
+//    AppTheme { HomeScreen(randomRecipes = null) }
 }

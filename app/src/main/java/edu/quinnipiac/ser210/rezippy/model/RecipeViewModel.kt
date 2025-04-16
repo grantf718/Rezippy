@@ -49,7 +49,7 @@ class RecipeViewModel : ViewModel() {
                 val response = recipeAPI.getRandomRecipes(number = number)
 
                 if (response.isSuccessful) {
-                    Log.d("API response: ", response.body().toString())
+                    Log.d("API response: ", "Success")
                     _randomRecipesResult.value = response
                 }
                 else {

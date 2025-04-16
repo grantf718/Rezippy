@@ -38,6 +38,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NamedNavArgument
 import androidx.navigation.NavController
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
@@ -79,7 +80,8 @@ fun Navigation(){
         ) {
             composable(Screens.HomeScreen.name) {
                 HomeScreen(
-                    randomRecipes = randomRecipesResponse?.body()
+                    randomRecipes = randomRecipesResponse?.body(),
+                    navController = navController
                 )
             }
             composable(
@@ -87,8 +89,10 @@ fun Navigation(){
                 arguments = listOf(navArgument(name = "name") {type = NavType.StringType})
                 ) { backStackEntry ->
                 DetailScreen(
-                    randomRecipes = randomRecipesResponse?.body(),
-                    recipeTitle = backStackEntry.arguments?.getString("name")
+                    // Pass only the clicked recipe to the DetailScreen
+                    recipe = randomRecipesResponse?.body()?.recipes?.filter { recipe ->
+                        recipe.title == backStackEntry.arguments?.getString("name")
+                    }?.firstOrNull()
                 )
             }
             //TODO: Additional Screens
