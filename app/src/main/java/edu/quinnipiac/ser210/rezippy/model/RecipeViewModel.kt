@@ -1,6 +1,9 @@
+/**
+ * RecipeViewModel for handling recipe network requests
+ */
+
 package edu.quinnipiac.ser210.rezippy.model
 
-import android.health.connect.datatypes.NutritionRecord
 import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

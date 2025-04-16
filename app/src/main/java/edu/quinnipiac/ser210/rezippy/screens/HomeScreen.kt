@@ -28,10 +28,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import edu.quinnipiac.ser210.rezippy.R
+import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.RandomRecipes
 import edu.quinnipiac.ser210.rezippy.ui.theme.RezippyTheme
 
 @Composable
-fun HomeScreen(){
+fun HomeScreen(
+    randomRecipes: RandomRecipes?
+){
     Surface(
         color = MaterialTheme.colorScheme.background,
         modifier = Modifier
@@ -123,6 +126,6 @@ fun RecipeCardPreview(){
 @Composable
 fun Preview(){
     RezippyTheme{
-        HomeScreen()
+        HomeScreen(randomRecipes = null)
     }
 }
