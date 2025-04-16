@@ -52,7 +52,7 @@ interface RecipeAPI {
     )
     @GET("recipes/informationBulk")
     suspend fun getRecipesByIds(
-        @Query("ids") ingredients: String,                               // Comma-separated list of IDs
+        @Query("ids") ids: String,                               // Comma-separated list of IDs
         @Query("includeNutrition") includeNutrition: Boolean = false,    // Include nutrition information
     ): Response<BulkRecipes>
 
