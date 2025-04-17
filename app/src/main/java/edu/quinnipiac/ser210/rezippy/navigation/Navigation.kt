@@ -338,55 +338,61 @@ fun NavBar(
     val previousBackStackEntry = navController.previousBackStackEntry
     val currentRoute = backStackEntry?.destination?.route
 
-    CenterAlignedTopAppBar(
-        title = {
-            Text("Recipes",
-                color = MaterialTheme.colorScheme.onPrimary,
-                fontSize = 28.sp,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-            )
-        },
-        navigationIcon = {
-            // Conditional back navigation from detail screen
-            Log.i("Nav Route: ", "${currentRoute}")
-            if (currentRoute?.substringBefore("/") == Screens.DetailScreen.name) {
-                IconButton(
-                    onClick = { navController.navigateUp() }
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier
-                            .size(32.dp)
-                    )
-                }
-            }
-            // Menu icon for NavDrawer if not on Detail Screen
-            else {
-                IconButton(
-                    onClick = {
-                        scope.launch {
-                            drawerState.open()
-                        }
+    Column {
+        CenterAlignedTopAppBar(
+            title = {
+                Text("Recipes",
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    fontSize = 40.sp,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.W900
+                )
+            },
+            navigationIcon = {
+                // Conditional back navigation from detail screen
+                Log.i("Nav Route: ", "${currentRoute}")
+                if (currentRoute?.substringBefore("/") == Screens.DetailScreen.name) {
+                    IconButton(
+                        onClick = { navController.navigateUp() }
+                    ) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier
+                                .size(32.dp)
+                        )
                     }
-                ) {
-                    Icon(
-                        imageVector = Icons.Filled.Menu,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.onPrimary,
-                        modifier = Modifier
-                            .size(32.dp)
-                    )
                 }
-            }
-        },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        modifier = modifier
-            .padding(bottom = 4.dp)
-            .fillMaxWidth()
-    )
+                // Menu icon for NavDrawer if not on Detail Screen
+                else {
+                    IconButton(
+                        onClick = {
+                            scope.launch {
+                                drawerState.open()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = Icons.Filled.Menu,
+                            contentDescription = null,
+                            tint = MaterialTheme.colorScheme.onPrimary,
+                            modifier = Modifier
+                                .size(32.dp)
+                        )
+                    }
+                }
+            },
+            colors = TopAppBarDefaults.mediumTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ),
+            modifier = modifier
+                .fillMaxWidth()
+        )
+
+        HorizontalDivider(
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            thickness = 3.dp
+        )
+    }
 }
