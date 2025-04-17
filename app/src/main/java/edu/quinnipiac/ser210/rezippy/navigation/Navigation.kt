@@ -334,7 +334,8 @@ fun NavBar(
     modifier: Modifier = Modifier
 ) {
     // Conditional back navigation based on current and previous routes
-    val backStackEntry = navController.currentBackStackEntry
+//    val backStackEntry = navController.currentBackStackEntry
+    val backStackEntry by navController.currentBackStackEntryAsState()
     val previousBackStackEntry = navController.previousBackStackEntry
     val currentRoute = backStackEntry?.destination?.route
 
@@ -350,7 +351,7 @@ fun NavBar(
             },
             navigationIcon = {
                 // Conditional back navigation from detail screen
-                Log.i("Nav Route: ", "${currentRoute}")
+                Log.i("Nav Route: ", "$currentRoute")
                 if (currentRoute?.substringBefore("/") == Screens.DetailScreen.name) {
                     IconButton(
                         onClick = { navController.navigateUp() }
