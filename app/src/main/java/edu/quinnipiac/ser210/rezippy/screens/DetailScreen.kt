@@ -27,6 +27,7 @@ import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.ExtendedIngredient
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.Recipe
+import edu.quinnipiac.ser210.rezippy.ui.theme.textColor
 
 @Composable
 fun DetailScreen(
@@ -78,7 +79,7 @@ fun RecipeImage(image: String, modifier: Modifier = Modifier) {
         contentAlignment = Alignment.Center,
         modifier = modifier
             .height(320.dp)
-            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .clip(RoundedCornerShape(28.dp))
     ) {
         AsyncImage(
@@ -99,7 +100,7 @@ fun RecipeDetails(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .background(MaterialTheme.colorScheme.secondaryContainer)
+            .background(MaterialTheme.colorScheme.primaryContainer)
             .wrapContentHeight()
             .padding(4.dp)
     ){
@@ -107,9 +108,9 @@ fun RecipeDetails(
         Text(
             text = recipe.title,
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center
+            textAlign = TextAlign.Center,
         )
 
         // Recipe summary
@@ -117,13 +118,13 @@ fun RecipeDetails(
             // Remove html tags from summary
             text = recipe.summary.replace(Regex("<[^>]*>"), ""),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
         HorizontalDivider(
             thickness = 2.dp,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             modifier = Modifier.padding(4.dp)
         )
 
@@ -131,7 +132,7 @@ fun RecipeDetails(
         Text(
             text = "Ingredients:",
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
@@ -142,13 +143,13 @@ fun RecipeDetails(
                 }
             },
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
         HorizontalDivider(
             thickness = 2.dp,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             modifier = Modifier.padding(4.dp)
         )
 
@@ -156,7 +157,7 @@ fun RecipeDetails(
         Text(
             text = "Instructions:",
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
@@ -169,7 +170,7 @@ fun RecipeDetails(
                 }
             },
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onSecondaryContainer,
+            color = MaterialTheme.colorScheme.secondaryContainer,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )

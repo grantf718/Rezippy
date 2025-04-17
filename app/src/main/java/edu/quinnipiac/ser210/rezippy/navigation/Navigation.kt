@@ -6,6 +6,7 @@ package edu.quinnipiac.ser210.rezippy.navigation
 
 import android.content.Intent
 import android.util.Log
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -17,6 +18,7 @@ import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -114,40 +116,49 @@ fun NavBar(
     val currentRoute = backStackEntry?.destination?.route
     val previousRoute = previousBackStackEntry?.destination?.route
 
-    CenterAlignedTopAppBar(
-        title = {
-            Text("Recipes",
-                color = MaterialTheme.colorScheme.onPrimary,
-                fontSize = 28.sp,
-                style = MaterialTheme.typography.bodyLarge,
-                fontWeight = FontWeight.Bold,
-            )
-        },
-        navigationIcon = {
-            // Conditional backnavigation
-            //TODO: Back navigation between DetailScreen and BookmarkedScreen
-            if (currentRoute == Screens.DetailScreen.name) {
-                when (previousRoute) {
-                    Screens.DetailScreen.name -> IconButton(
-                        onClick = { navController.popBackStack(Screens.HomeScreen.name, inclusive = true) }
-                    ) {
-                        Icon(
-                            imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                            contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
-                            modifier = Modifier
-                                .size(32.dp)
-                        )
+    Column(){
+
+        CenterAlignedTopAppBar(
+            title = {
+                Text("Recipes",
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    fontSize = 40.sp,
+                    style = MaterialTheme.typography.bodyLarge,
+                    fontWeight = FontWeight.W900,
+                )
+            },
+            navigationIcon = {
+                // Conditional backnavigation
+                //TODO: Back navigation between DetailScreen and BookmarkedScreen
+                if (currentRoute == Screens.DetailScreen.name) {
+                    when (previousRoute) {
+                        Screens.DetailScreen.name -> IconButton(
+                            onClick = { navController.popBackStack(Screens.HomeScreen.name, inclusive = true) }
+                        ) {
+                            Icon(
+                                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.onPrimary,
+                                modifier = Modifier
+                                    .size(32.dp)
+                            )
+                        }
+                        else -> Log.d("Navigation Error","Failed to find valid screen route in backstack")
                     }
-                    else -> Log.d("Navigation Error","Failed to find valid screen route in backstack")
                 }
-            }
-        },
-        colors = TopAppBarDefaults.mediumTopAppBarColors(
-            containerColor = MaterialTheme.colorScheme.primary
-        ),
-        modifier = modifier
-            .padding(bottom = 4.dp)
-            .fillMaxWidth()
-    )
+            },
+            colors = TopAppBarDefaults.mediumTopAppBarColors(
+                containerColor = MaterialTheme.colorScheme.primaryContainer
+            ),
+            modifier = modifier
+                .fillMaxWidth()
+        )
+
+        Divider(
+            color = MaterialTheme.colorScheme.secondaryContainer,
+            thickness = 3.dp
+        )
+    }
+
+
 }
