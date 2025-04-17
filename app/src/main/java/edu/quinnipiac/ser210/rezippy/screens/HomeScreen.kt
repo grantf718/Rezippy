@@ -112,7 +112,8 @@ fun RecipeCard(
                     .padding(0.dp)
             ) {
                 // Dynamically scale font size
-                val charCount = recipe.title.length.coerceAtLeast(1)
+                val trimmedTitle = recipe.title.trimEnd()
+                val charCount = trimmedTitle.length.coerceAtLeast(1)
                 val dpPerChar = maxWidth / charCount
                 val targetSp = with(LocalDensity.current) { dpPerChar.toSp() }
                 val minFontSize: TextUnit = 15.sp // min size
