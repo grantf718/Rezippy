@@ -358,7 +358,7 @@ fun NavBar(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
+                            tint = MaterialTheme.colorScheme.secondaryContainer,
                             modifier = Modifier
                                 .size(32.dp)
                         )
@@ -376,7 +376,7 @@ fun NavBar(
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
+                            tint = MaterialTheme.colorScheme.secondaryContainer,
                             modifier = Modifier
                                 .size(32.dp)
                         )
