@@ -29,6 +29,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -116,8 +117,8 @@ fun RecipeCard(
                 val charCount = trimmedTitle.length.coerceAtLeast(1)
                 val dpPerChar = maxWidth / charCount
                 val targetSp = with(LocalDensity.current) { dpPerChar.toSp() }
-                val minFontSize: TextUnit = 15.sp // min size
-                val maxFontSize: TextUnit = 33.sp // max size
+                val minFontSize: TextUnit = 24.sp // min size
+                val maxFontSize: TextUnit = 42.sp // max size
                 val fontSize = when {
                     targetSp < minFontSize -> minFontSize
                     targetSp > maxFontSize -> maxFontSize
@@ -131,6 +132,7 @@ fun RecipeCard(
                     color = MaterialTheme.colorScheme.secondaryContainer,
                     textAlign = TextAlign.Center,
                     overflow = TextOverflow.Ellipsis,
+                    fontWeight = FontWeight.ExtraBold,
                     modifier = Modifier
                         .fillMaxWidth()
                         .padding(horizontal = 12.dp)
