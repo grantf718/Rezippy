@@ -3,6 +3,7 @@ package edu.quinnipiac.ser210.rezippy.screens
 import android.content.res.Configuration.UI_MODE_NIGHT_NO
 import android.content.res.Configuration.UI_MODE_NIGHT_YES
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -22,17 +23,21 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import edu.quinnipiac.ser210.rezippy.R
 import edu.quinnipiac.ser210.rezippy.ui.theme.AppTheme
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.RandomRecipes
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.Recipe
 import edu.quinnipiac.ser210.rezippy.navigation.Screens
+import edu.quinnipiac.ser210.rezippy.ui.theme.textColor
 
 @Composable
 fun HomeScreen(
@@ -54,8 +59,7 @@ fun HomeScreen(
             randomRecipes?.recipes?.forEach { recipe ->
                 item {
                     RecipeCard(
-                        recipe = recipe,
-                        modifier = Modifier
+                        recipe = recipe
                     ) {
                         navController.navigate(route = Screens.DetailScreen.name+"/${recipe.title}")
                     }
@@ -68,14 +72,13 @@ fun HomeScreen(
 @Composable
 fun RecipeCard(
     recipe: Recipe,
-    modifier: Modifier = Modifier,
     onItemClick: (String) -> Unit = {}
 ){
     Card(
         shape = RoundedCornerShape(28.dp),
-        border = BorderStroke(4.dp, MaterialTheme.colorScheme.secondary), // border color
+        border = BorderStroke(4.dp, MaterialTheme.colorScheme.tertiaryContainer), // border color
         colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.secondaryContainer // entire card (but just the bottom of it shows, where the text is)
+            containerColor = Color.White // entire card (but just the bottom of it shows, where the text is)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         modifier = Modifier
@@ -118,6 +121,52 @@ fun RecipeCard(
     }
 }
 
+// For previewing purposes
+@Composable
+fun TESTRecipeCard(){
+    Card(
+        shape = RoundedCornerShape(28.dp),
+        border = BorderStroke(4.dp, MaterialTheme.colorScheme.tertiaryContainer), // border color
+        colors = CardDefaults.cardColors(
+            containerColor = Color.White // entire card (but just the bottom of it shows, where the text is)
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(240.dp)
+            .clip(RoundedCornerShape(28.dp))
+    ){
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            modifier = Modifier.fillMaxSize()
+        ){
+            Image(
+                painter = painterResource(id = R.drawable.sample_image),
+                contentDescription = null,
+                contentScale = ContentScale.FillWidth,
+                modifier = Modifier
+                    .height(180.dp)
+            )
+            Box(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp)
+            ){
+                Text(
+                    text = "Recipe Preview",
+                    style = MaterialTheme.typography.headlineLarge,
+                    color = textColor,
+                    textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                )
+            }
+        }
+    }
+}
 
 
 @Preview(
@@ -132,7 +181,7 @@ fun RecipeCard(
 fun RecipeCardPreview(){
     AppTheme{
         //Not sure how we are going to preview this yet
-        //RecipeCard()
+        TESTRecipeCard()
     }
 }
 
