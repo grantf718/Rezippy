@@ -334,7 +334,7 @@ fun NavBar(
     modifier: Modifier = Modifier
 ) {
     // Conditional back navigation based on current and previous routes
-    val backStackEntry = navController.currentBackStackEntry
+    val backStackEntry by navController.currentBackStackEntryAsState()
     val previousBackStackEntry = navController.previousBackStackEntry
     val currentRoute = backStackEntry?.destination?.route
 
@@ -342,7 +342,7 @@ fun NavBar(
         CenterAlignedTopAppBar(
             title = {
                 Text("Recipes",
-                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    color = MaterialTheme.colorScheme.secondary,
                     fontSize = 40.sp,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.W900
@@ -358,7 +358,7 @@ fun NavBar(
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
+                            tint = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier
                                 .size(32.dp)
                         )
@@ -376,7 +376,7 @@ fun NavBar(
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.onPrimary,
+                            tint = MaterialTheme.colorScheme.secondary,
                             modifier = Modifier
                                 .size(32.dp)
                         )
@@ -391,7 +391,7 @@ fun NavBar(
         )
 
         HorizontalDivider(
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.secondary,
             thickness = 3.dp
         )
     }
