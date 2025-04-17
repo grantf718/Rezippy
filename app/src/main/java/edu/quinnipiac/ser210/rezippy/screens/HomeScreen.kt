@@ -105,51 +105,45 @@ fun RecipeCard(
                 modifier = Modifier
                     .height(180.dp)
             )
-//            Box(
-//                contentAlignment = Alignment.Center,
-//                modifier = Modifier
-//                    .fillMaxSize()
-//                    .padding(0.dp)
-//            ){
-                BoxWithConstraints(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(0.dp)
-//                        .background(Color.LightGray)
-                ) {
-                    // (WIP) Dynamically scale font size
-                    val charCount = recipe.title.length.coerceAtLeast(1)
-                    val dpPerChar = (maxWidth * 0.8f) / charCount
-                    val targetSp = with(LocalDensity.current) { dpPerChar.toSp() }
-                    val minFontSize: TextUnit = 15.sp
-                    val maxFontSize: TextUnit = 33.sp
-                    val fontSize = when {
-                        targetSp < minFontSize -> minFontSize
-                        targetSp > maxFontSize -> maxFontSize
-                        else                   -> targetSp
-                    }
-
-
-                    Text(
-                        text = recipe.title,
-//                        style = MaterialTheme.typography.bodyLarge.copy(fontSize = fontSize),
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-//                        fontSize = fontSize,
-                        textAlign = TextAlign.Center,
-                        overflow = TextOverflow.Ellipsis,
-                        modifier = Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 12.dp)
-                    )
+            BoxWithConstraints(
+                contentAlignment = Alignment.Center,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(0.dp)
+            ) {
+                // Dynamically scale font size
+                val charCount = recipe.title.length.coerceAtLeast(1)
+                val dpPerChar = maxWidth / charCount
+                val targetSp = with(LocalDensity.current) { dpPerChar.toSp() }
+                val minFontSize: TextUnit = 15.sp // min size
+                val maxFontSize: TextUnit = 33.sp // max size
+                val fontSize = when {
+                    targetSp < minFontSize -> minFontSize
+                    targetSp > maxFontSize -> maxFontSize
+                    else                   -> targetSp
                 }
-//            }
+
+
+                Text(
+                    text = recipe.title,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = fontSize),
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    textAlign = TextAlign.Center,
+                    overflow = TextOverflow.Ellipsis,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 12.dp)
+                )
+            }
         }
     }
 }
 
 // For previewing purposes
 @Composable
-fun TESTRecipeCard(){
+fun TESTRecipeCard(
+    recipeName: String
+){
     Card(
         shape = RoundedCornerShape(28.dp),
         border = BorderStroke(4.dp, MaterialTheme.colorScheme.tertiaryContainer), // border color
@@ -173,16 +167,28 @@ fun TESTRecipeCard(){
                 modifier = Modifier
                     .height(180.dp)
             )
-            Box(
+            BoxWithConstraints(
                 contentAlignment = Alignment.Center,
                 modifier = Modifier
                     .fillMaxSize()
                     .padding(0.dp)
-            ){
+            ) {
+
+                // Dynamically scale font size
+                val charCount = recipeName.length.coerceAtLeast(1)
+                val dpPerChar = maxWidth / charCount
+                val targetSp = with(LocalDensity.current) { dpPerChar.toSp() }
+                val minFontSize: TextUnit = 15.sp
+                val maxFontSize: TextUnit = 33.sp
+                val fontSize = when {
+                    targetSp < minFontSize -> minFontSize
+                    targetSp > maxFontSize -> maxFontSize
+                    else                   -> targetSp
+                }
                 Text(
-                    text = "Recipe Preview",
-                    style = MaterialTheme.typography.headlineLarge,
+                    text = recipeName,
                     color = textColor,
+                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = fontSize),
                     textAlign = TextAlign.Center,
                     overflow = TextOverflow.Ellipsis,
                     modifier = Modifier
@@ -206,8 +212,11 @@ fun TESTRecipeCard(){
 @Composable
 fun RecipeCardPreview(){
     AppTheme{
-        //Not sure how we are going to preview this yet
-        TESTRecipeCard()
+        Column(){
+            TESTRecipeCard("Short name")
+            TESTRecipeCard("Reeaaaallllly looooong naaaaaaammmmmmmeeeeeee")
+        }
+
     }
 }
 

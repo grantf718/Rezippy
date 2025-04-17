@@ -41,7 +41,7 @@ class RecipeViewModel : ViewModel() {
     }
 
     // Fetch random recipes
-    fun fetchRandomRecipes(number: Int = 1) {
+    fun fetchRandomRecipes(number: Int = 2) {
         if (isRecipesFetched) return
 
         viewModelScope.launch {
