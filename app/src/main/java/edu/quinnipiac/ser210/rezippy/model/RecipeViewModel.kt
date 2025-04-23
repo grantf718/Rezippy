@@ -13,12 +13,14 @@ import edu.quinnipiac.ser210.rezippy.api.BulkRecipeData.BulkRecipes
 import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.RandomRecipes
 import edu.quinnipiac.ser210.rezippy.api.RecipeAPI
 import edu.quinnipiac.ser210.rezippy.api.SearchRecipeData.RecipesByIngredient
-import kotlinx.coroutines.async
-import kotlinx.coroutines.awaitAll
+import edu.quinnipiac.ser210.rezippy.data.Item
+import edu.quinnipiac.ser210.rezippy.data.ItemDao
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import retrofit2.Response
 
-class RecipeViewModel : ViewModel() {
+class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     private val recipeAPI = RecipeAPI.create()
 
     // LiveData for random recipes
@@ -33,6 +35,10 @@ class RecipeViewModel : ViewModel() {
     // LiveData for bulk recipes by ID
     private val _bulkRecipesResult = MutableLiveData<Response<BulkRecipes>>()
     val bulkRecipesResult: LiveData<Response<BulkRecipes>> = _bulkRecipesResult
+
+    // StateFlow to track user favorited recipes
+    private val _favoriteRecipes = MutableStateFlow<List<Item?>>(arrayListOf())
+    val favoriteRecipes get() = _favoriteRecipes.asStateFlow()
 
     // Get random recipes upon initialization
     init {
@@ -97,6 +103,24 @@ class RecipeViewModel : ViewModel() {
             } catch (e : Exception) {
                 e.message?.let { Log.d("network error", it) }
             }
+        }
+    }
+
+    fun getFavoriteRecipes() {
+        viewModelScope.launch {
+            _favoriteRecipes.value = itemDao.getAllItems()
+        }
+    }
+
+    fun saveRecipe(item: Item) {
+        viewModelScope.launch {
+            itemDao.insert(item)
+        }
+    }
+
+    fun deleteRecipe(item: Item) {
+        viewModelScope.launch {
+            itemDao.delete(item)
         }
     }
 }
