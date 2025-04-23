@@ -33,7 +33,7 @@ fun SettingScreen(
     onToggleTheme: () -> Unit
 ){
     Surface(
-        color = MaterialTheme.colorScheme.primaryContainer,
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
     ){
         Column(
@@ -47,10 +47,10 @@ fun SettingScreen(
             OutlinedButton(
                 onClick = onToggleTheme,
                 colors = ButtonDefaults.outlinedButtonColors(
-                    containerColor = MaterialTheme.colorScheme.onPrimary,
-                    contentColor = MaterialTheme.colorScheme.secondaryContainer
+                    containerColor = MaterialTheme.colorScheme.secondary,
+                    contentColor = MaterialTheme.colorScheme.onSecondary
                 ),
-                border = BorderStroke(2.dp, MaterialTheme.colorScheme.tertiaryContainer),
+                border = BorderStroke(2.dp, MaterialTheme.colorScheme.tertiary),
                 modifier = Modifier
                     .fillMaxWidth()
             ){
@@ -61,21 +61,21 @@ fun SettingScreen(
 }
 
 
-//@Preview(
-//    uiMode = UI_MODE_NIGHT_NO,
-//    name = "Light"
-//)
-//@Preview(
-//    uiMode = UI_MODE_NIGHT_YES,
-//    name = "Dark"
-//)
-//@Composable
-//fun SettingsScreenPreview() {
-//    AppTheme {
-//        SettingScreen(
-//            navController = rememberNavController(),
-//            isDarkMode = isDarkMode,
-//            onToggleTheme = onToggleTheme
-//        )
-//    }
-//}
+@Preview(
+    uiMode = UI_MODE_NIGHT_NO,
+    name = "Light"
+)
+@Preview(
+    uiMode = UI_MODE_NIGHT_YES,
+    name = "Dark"
+)
+@Composable
+fun SettingsScreenPreview() {
+    AppTheme {
+        SettingScreen(
+            navController = rememberNavController(),
+            isDarkMode = false,
+            onToggleTheme = {}
+        )
+    }
+}

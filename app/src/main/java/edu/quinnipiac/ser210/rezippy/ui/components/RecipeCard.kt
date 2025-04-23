@@ -20,7 +20,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
@@ -35,7 +34,6 @@ import coil3.compose.AsyncImage
 import edu.quinnipiac.ser210.rezippy.R
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
 import edu.quinnipiac.ser210.rezippy.ui.theme.AppTheme
-import edu.quinnipiac.ser210.rezippy.ui.theme.textColor
 
 @Composable
 fun RecipeCard(
@@ -44,9 +42,9 @@ fun RecipeCard(
 ){
     Card(
         shape = RoundedCornerShape(28.dp),
-        border = BorderStroke(4.dp, MaterialTheme.colorScheme.tertiaryContainer), // border color
+        border = BorderStroke(4.dp, MaterialTheme.colorScheme.tertiary),
         colors = CardDefaults.cardColors(
-            containerColor = Color.White // entire card (but just the bottom of it shows, where the text is)
+            containerColor = MaterialTheme.colorScheme.secondary
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = Modifier
@@ -84,14 +82,13 @@ fun RecipeCard(
                 val fontSize = when {
                     targetSp < minFontSize -> minFontSize
                     targetSp > maxFontSize -> maxFontSize
-                    else                   -> targetSp
+                    else -> targetSp
                 }
-
 
                 Text(
                     text = recipe.title,
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = fontSize),
-                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     textAlign = TextAlign.Center,
                     overflow = TextOverflow.Ellipsis,
                     fontWeight = FontWeight.ExtraBold,
@@ -102,99 +99,4 @@ fun RecipeCard(
             }
         }
     }
-}
-
-// For previewing purposes
-@Composable
-fun TESTRecipeCard(
-    recipeName: String
-){
-    Card(
-        shape = RoundedCornerShape(28.dp),
-        border = BorderStroke(4.dp, MaterialTheme.colorScheme.onPrimary), // border color
-        colors = CardDefaults.cardColors(
-            containerColor = MaterialTheme.colorScheme.tertiary // entire card (but just the bottom of it shows, where the text is)
-        ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
-        modifier = Modifier
-            .fillMaxWidth()
-            .height(240.dp)
-            .clip(RoundedCornerShape(28.dp))
-    ){
-        Column(
-            horizontalAlignment = Alignment.CenterHorizontally,
-            modifier = Modifier.fillMaxSize()
-        ){
-            Image(
-                painter = painterResource(id = R.drawable.sample_image),
-                contentDescription = null,
-                contentScale = ContentScale.FillWidth,
-                modifier = Modifier
-                    .height(180.dp)
-            )
-            BoxWithConstraints(
-                contentAlignment = Alignment.Center,
-                modifier = Modifier
-                    .fillMaxSize()
-                    .padding(0.dp)
-            ) {
-
-                // Dynamically scale font size
-                val charCount = recipeName.length.coerceAtLeast(1)
-                val dpPerChar = maxWidth / charCount
-                val targetSp = with(LocalDensity.current) { dpPerChar.toSp() }
-                val minFontSize: TextUnit = 15.sp
-                val maxFontSize: TextUnit = 33.sp
-                val fontSize = when {
-                    targetSp < minFontSize -> minFontSize
-                    targetSp > maxFontSize -> maxFontSize
-                    else                   -> targetSp
-                }
-                Text(
-                    text = recipeName,
-                    color = textColor,
-                    style = MaterialTheme.typography.bodyLarge.copy(fontSize = fontSize),
-                    textAlign = TextAlign.Center,
-                    overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 12.dp)
-                )
-            }
-        }
-    }
-}
-
-
-@Preview(
-    uiMode = UI_MODE_NIGHT_NO,
-    name = "DefaultPreviewLight"
-)
-@Preview(
-    uiMode = UI_MODE_NIGHT_YES,
-    name = "DefaultPreviewDark"
-)
-@Composable
-fun RecipeCardPreview(){
-    AppTheme{
-        Column(){
-            TESTRecipeCard("Short name")
-            TESTRecipeCard("Reeaaaallllly looooong naaaaaaammmmmmmeeeeeee")
-        }
-
-    }
-}
-
-
-@Preview(
-    uiMode = UI_MODE_NIGHT_NO,
-    name = "Light"
-)
-@Preview(
-    uiMode = UI_MODE_NIGHT_YES,
-    name = "Dark"
-)
-@Composable
-fun Preview(){
-//    AppTheme { HomeScreen(randomRecipes = null) }
 }

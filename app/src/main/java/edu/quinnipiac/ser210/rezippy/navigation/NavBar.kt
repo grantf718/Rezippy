@@ -50,7 +50,7 @@ fun NavBar (
         CenterAlignedTopAppBar(
             title = {
                 Text(navBarText,
-                    color = MaterialTheme.colorScheme.secondary,
+                    color = MaterialTheme.colorScheme.onSecondary,
                     fontSize = 40.sp,
                     style = MaterialTheme.typography.bodyLarge,
                     fontWeight = FontWeight.W900
@@ -66,7 +66,7 @@ fun NavBar (
                         Icon(
                             imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary,
+                            tint = MaterialTheme.colorScheme.onSecondary,
                             modifier = Modifier
                                 .size(32.dp)
                         )
@@ -84,7 +84,7 @@ fun NavBar (
                         Icon(
                             imageVector = Icons.Filled.Menu,
                             contentDescription = null,
-                            tint = MaterialTheme.colorScheme.secondary,
+                            tint = MaterialTheme.colorScheme.onSecondary,
                             modifier = Modifier
                                 .size(32.dp)
                         )
@@ -92,14 +92,14 @@ fun NavBar (
                 }
             },
             colors = TopAppBarDefaults.mediumTopAppBarColors(
-                containerColor = MaterialTheme.colorScheme.primaryContainer
+                containerColor = MaterialTheme.colorScheme.secondary
             ),
             modifier = modifier
                 .fillMaxWidth()
         )
 
         HorizontalDivider(
-            color = MaterialTheme.colorScheme.secondary,
+            color = MaterialTheme.colorScheme.tertiary,
             thickness = 3.dp
         )
     }

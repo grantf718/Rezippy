@@ -5,6 +5,7 @@
 package edu.quinnipiac.ser210.rezippy.navigation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -51,11 +52,12 @@ fun NavDrawer(
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet (
-                drawerContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                drawerContainerColor = MaterialTheme.colorScheme.primary,
             ) {
                 Column (
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.padding(horizontal = 16.dp)
-                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .background(MaterialTheme.colorScheme.primary)
                         .verticalScroll(rememberScrollState())
                 ) {
                     //Drawer title
@@ -63,7 +65,7 @@ fun NavDrawer(
                     Text(
                         text = "Rezippy",
                         style = MaterialTheme.typography.headlineLarge,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
@@ -73,7 +75,7 @@ fun NavDrawer(
                     Text(
                         text = "Pages",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
@@ -101,12 +103,12 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     // Favorites option
@@ -133,12 +135,12 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     // Suggestions option
@@ -164,12 +166,12 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
 
@@ -205,12 +207,12 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     //Help option
@@ -236,12 +238,12 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     Spacer(Modifier.height(12.dp))

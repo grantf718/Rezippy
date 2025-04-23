@@ -32,7 +32,7 @@ fun DetailScreen(
     modifier: Modifier = Modifier
 ){
     Surface(
-        color = MaterialTheme.colorScheme.primaryContainer,
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier
             .fillMaxSize()
     ){
@@ -96,7 +96,7 @@ fun RecipeDetails(
         verticalArrangement = Arrangement.spacedBy(8.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
-            .background(MaterialTheme.colorScheme.primaryContainer)
+            .background(MaterialTheme.colorScheme.primary)
             .wrapContentHeight()
             .padding(4.dp)
     ){
@@ -104,7 +104,7 @@ fun RecipeDetails(
         Text(
             text = recipe.title,
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Center,
         )
@@ -114,13 +114,13 @@ fun RecipeDetails(
             // Remove html tags from summary
             text = recipe.summary.replace(Regex("<[^>]*>"), ""),
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
         HorizontalDivider(
             thickness = 2.dp,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier.padding(4.dp)
         )
 
@@ -128,7 +128,7 @@ fun RecipeDetails(
         Text(
             text = "Ingredients:",
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
@@ -139,13 +139,13 @@ fun RecipeDetails(
                 }
             },
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
         HorizontalDivider(
             thickness = 2.dp,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.tertiary,
             modifier = Modifier.padding(4.dp)
         )
 
@@ -153,7 +153,7 @@ fun RecipeDetails(
         Text(
             text = "Instructions:",
             style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
@@ -166,7 +166,7 @@ fun RecipeDetails(
                 }
             },
             style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.secondaryContainer,
+            color = MaterialTheme.colorScheme.onPrimary,
             fontWeight = FontWeight.Bold,
             textAlign = TextAlign.Left
         )
