@@ -11,6 +11,10 @@ import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModelProvider
 import androidx.room.Room
 import edu.quinnipiac.ser210.rezippy.data.FavoritesDatabase
@@ -41,16 +45,28 @@ class MainActivity : ComponentActivity() {
 
         enableEdgeToEdge()
         setContent {
-            RezippyApp {
-                Navigation(recipeViewModel)
+            var isDarkMode by remember { mutableStateOf(false) }
+            RezippyApp(
+                useDarkTheme = isDarkMode,
+                onToggleTheme = { isDarkMode = !isDarkMode }
+            ) {
+                Navigation(
+                    recipeViewModel,
+                    isDarkMode = isDarkMode,
+                    onToggleTheme = { isDarkMode = !isDarkMode }
+                )
             }
         }
     }
 }
 
 @Composable
-fun RezippyApp(content: @Composable () -> Unit) {
-    AppTheme {
+fun RezippyApp(
+    useDarkTheme: Boolean,
+    onToggleTheme: () -> Unit,
+    content: @Composable () -> Unit
+) {
+    AppTheme(darkTheme = useDarkTheme) {
         content()
     }
 }

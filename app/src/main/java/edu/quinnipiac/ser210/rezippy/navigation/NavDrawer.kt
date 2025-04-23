@@ -200,7 +200,8 @@ fun NavDrawer(
                         onClick = {
                             scope.launch {
                                 drawerState.close()
-                                //TODO: Settings screen
+                                selectedScreen.value = Screens.SettingScreen.name
+                                navController.navigate(Screens.SettingScreen.name)
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(

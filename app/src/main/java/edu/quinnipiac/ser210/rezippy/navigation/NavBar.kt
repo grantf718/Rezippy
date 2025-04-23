@@ -38,12 +38,12 @@ fun NavBar (
     currentRoute: String?,
     modifier: Modifier = Modifier
 ) {
-    // Navbar text says 'Recipes' or 'Favorites' based on current screen
-    var navBarText = "Recipes" // Default to saying Recipes
-    if(currentRoute?.substringBefore("/") == Screens.HomeScreen.name){
-        navBarText = "Recipes"
-    } else if(currentRoute?.substringBefore("/") == Screens.FavoriteScreen.name){
-        navBarText = "Favorites"
+    // Change navbar text based on screen
+    val navBarText = when (currentRoute?.substringBefore("/")) {
+        Screens.HomeScreen.name -> "Recipes"
+        Screens.FavoriteScreen.name -> "Favorites"
+        Screens.SettingScreen.name -> "Settings"
+        else -> "Recipes"
     }
 
     Column {
@@ -58,7 +58,7 @@ fun NavBar (
             },
             navigationIcon = {
                 // Conditional back navigation from detail screen
-                Log.i("Nav Route: ", "${currentRoute}")
+                Log.i("Nav Route: ", "$currentRoute")
                 if (currentRoute?.substringBefore("/") == Screens.DetailScreen.name) {
                     IconButton(
                         onClick = { navController.navigateUp() }

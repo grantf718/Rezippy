@@ -111,9 +111,9 @@ fun TESTRecipeCard(
 ){
     Card(
         shape = RoundedCornerShape(28.dp),
-        border = BorderStroke(4.dp, MaterialTheme.colorScheme.tertiaryContainer), // border color
+        border = BorderStroke(4.dp, MaterialTheme.colorScheme.onPrimary), // border color
         colors = CardDefaults.cardColors(
-            containerColor = Color.White // entire card (but just the bottom of it shows, where the text is)
+            containerColor = MaterialTheme.colorScheme.tertiary // entire card (but just the bottom of it shows, where the text is)
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
         modifier = Modifier
