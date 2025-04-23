@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.junit.ktx)
     implementation(libs.androidx.core.testing)
+    implementation(libs.androidx.graphics.shapes.android)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)

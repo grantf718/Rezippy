@@ -48,7 +48,7 @@ fun RecipeCard(
         colors = CardDefaults.cardColors(
             containerColor = Color.White // entire card (but just the bottom of it shows, where the text is)
         ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 0.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
         modifier = Modifier
             .fillMaxWidth()
             .height(240.dp)

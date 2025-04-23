@@ -21,13 +21,11 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import androidx.navigation.compose.currentBackStackEntryAsState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -37,13 +35,9 @@ fun NavBar (
     navController: NavController,
     scope: CoroutineScope,
     drawerState: DrawerState,
+    currentRoute: String?,
     modifier: Modifier = Modifier
 ) {
-    // Conditional back navigation based on current and previous routes
-    val backStackEntry by navController.currentBackStackEntryAsState()
-    val previousBackStackEntry = navController.previousBackStackEntry
-    val currentRoute = backStackEntry?.destination?.route
-
     Column {
         CenterAlignedTopAppBar(
             title = {
@@ -70,7 +64,7 @@ fun NavBar (
                         )
                     }
                 }
-                // Menu icon for NavDrawer if not on Detail Screen
+                // Menu icon for NavDrawer if not on DetailScreen
                 else {
                     IconButton(
                         onClick = {

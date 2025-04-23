@@ -19,18 +19,17 @@ fun HomeScreen(
     randomRecipes: RandomRecipes?,
     navController: NavController,
     modifier: Modifier = Modifier
-){
+) {
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
-        modifier = Modifier
-            .fillMaxSize()
-    ){
+        modifier = Modifier.fillMaxSize()
+    ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-        ){
+        ) {
             randomRecipes?.recipes?.forEach { recipe ->
                 item {
                     RecipeCard(

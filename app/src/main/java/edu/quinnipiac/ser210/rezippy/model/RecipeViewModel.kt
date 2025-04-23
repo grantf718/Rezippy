@@ -5,6 +5,8 @@
 package edu.quinnipiac.ser210.rezippy.model
 
 import android.util.Log
+import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.util.fastJoinToString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -24,17 +26,17 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     private val recipeAPI = RecipeAPI.create()
 
     // LiveData for random recipes
-    private val _randomRecipesResult = MutableLiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes>>()
-    val randomRecipesResult: LiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes>> = _randomRecipesResult
+    private val _randomRecipesResult = MutableLiveData<Response<RandomRecipes>>()
+    val randomRecipesResult: LiveData<Response<RandomRecipes>> = _randomRecipesResult
     private var isRecipesFetched = false    // Used to prevent repeated https requests
 
     // LiveData for search by ingredients
-    private val _recipesByIngredientResult = MutableLiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient>>()
-    val recipesByIngredientResult: LiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient>> = _recipesByIngredientResult
+    private val _recipesByIngredientResult = MutableLiveData<Response<RecipesByIngredient>>()
+    val recipesByIngredientResult: LiveData<Response<RecipesByIngredient>> = _recipesByIngredientResult
 
     // LiveData for bulk recipes by ID
-    private val _bulkRecipesResult = MutableLiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes>>()
-    val bulkRecipesResult: LiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes>> = _bulkRecipesResult
+    private val _bulkRecipesResult = MutableLiveData<Response<BulkRecipes>>()
+    val bulkRecipesResult: LiveData<Response<BulkRecipes>> = _bulkRecipesResult
 
     // StateFlow to track user favorited recipes
     private val _favoriteRecipes = MutableStateFlow<List<Item?>>(arrayListOf())
@@ -44,6 +46,7 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     init {
         Log.d("Init: ", "ViewModel initializing")
         fetchRandomRecipes()
+        fetchFavoriteRecipes()
     }
 
     // Fetch random recipes
@@ -88,27 +91,31 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     }
 
     // Fetch bulk recipes by ID
-    fun fetchBulkRecipes(ids: String, includeNutrition: Boolean = false) {
-        viewModelScope.launch {
-            try {
-                val response = recipeAPI.getRecipesByIds(ids = ids)
+    fun fetchBulkRecipes(ids: String) {
+        if (ids.isNotEmpty()) {
+            viewModelScope.launch {
+                try {
+                    val response = recipeAPI.getRecipesByIds(ids = ids)
 
-                if (response.isSuccessful) {
-                    Log.d("API response: ", response.body().toString())
-                    _bulkRecipesResult.value = response
+                    if (response.isSuccessful) {
+                        Log.d("API response: ", response.body().toString())
+                        _bulkRecipesResult.value = response
+                    }
+                    else {
+                        Log.d("network error","Failed to load data")
+                    }
+                } catch (e : Exception) {
+                    e.message?.let { Log.d("network error", it) }
                 }
-                else {
-                    Log.d("network error","Failed to load data")
-                }
-            } catch (e : Exception) {
-                e.message?.let { Log.d("network error", it) }
             }
         }
     }
 
-    fun getFavoriteRecipes() {
+    // Calls a bulk fetch request using favorited items in database
+    fun fetchFavoriteRecipes() {
         viewModelScope.launch {
             _favoriteRecipes.value = itemDao.getAllItems()
+            fetchBulkRecipes(_favoriteRecipes.value.map { it!!.id }.fastJoinToString(","))
         }
     }
 
@@ -121,6 +128,12 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     fun deleteRecipe(item: Item) {
         viewModelScope.launch {
             itemDao.delete(item)
+        }
+    }
+
+    fun getRecipeById(id: Int) {
+        viewModelScope.launch {
+            itemDao.getItemById(id)
         }
     }
 }

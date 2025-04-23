@@ -27,6 +27,7 @@ import androidx.compose.material3.NavigationDrawerItem
 import androidx.compose.material3.NavigationDrawerItemDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -34,6 +35,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
+import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
@@ -42,10 +44,10 @@ fun NavDrawer(
     navController: NavController,
     scope: CoroutineScope,
     drawerState: DrawerState,
+    recipeViewModel: RecipeViewModel,
+    selectedScreen: MutableState<String>,
     content: @Composable () -> Unit
 ) {
-    val selectedScreen by remember { mutableStateOf(Screens.HomeScreen.name) }
-
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet (
@@ -75,6 +77,7 @@ fun NavDrawer(
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
+                    //Home option
                     NavigationDrawerItem(
                         label = {
                             Text(
@@ -85,14 +88,15 @@ fun NavDrawer(
                         },
                         icon = {
                             Icon(
-                                imageVector = if (selectedScreen == Screens.HomeScreen.name) Icons.Filled.Home else Icons.Outlined.Home,
+                                imageVector = if (selectedScreen.value == Screens.HomeScreen.name) Icons.Filled.Home else Icons.Outlined.Home,
                                 contentDescription = null
                             )
                         },
-                        selected = selectedScreen == Screens.HomeScreen.name,
+                        selected = selectedScreen.value == Screens.HomeScreen.name,
                         onClick = {
                             scope.launch {
                                 drawerState.close()
+                                selectedScreen.value = Screens.HomeScreen.name
                                 navController.navigate(Screens.HomeScreen.name)
                             }
                         },
@@ -105,10 +109,11 @@ fun NavDrawer(
                             selectedTextColor = MaterialTheme.colorScheme.onTertiary
                         )
                     )
+                    // Favorites option
                     NavigationDrawerItem(
                         label = {
                             Text(
-                                text = "Bookmarked",
+                                text = "Favorites",
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -119,11 +124,12 @@ fun NavDrawer(
                                 contentDescription = null
                             )
                         },
-                        selected = false,
+                        selected = selectedScreen.value == Screens.FavoriteScreen.name,
                         onClick = {
                             scope.launch {
                                 drawerState.close()
-                                //TODO: Bookmarked navigation
+                                selectedScreen.value = Screens.FavoriteScreen.name
+                                navController.navigate(Screens.FavoriteScreen.name)
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
@@ -135,6 +141,7 @@ fun NavDrawer(
                             selectedTextColor = MaterialTheme.colorScheme.onTertiary
                         )
                     )
+                    // Suggestions option
                     NavigationDrawerItem(
                         label = {
                             Text(
@@ -174,6 +181,7 @@ fun NavDrawer(
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
+                    // Settings option
                     NavigationDrawerItem(
                         label = {
                             Text(
@@ -204,6 +212,7 @@ fun NavDrawer(
                             selectedTextColor = MaterialTheme.colorScheme.onTertiary
                         )
                     )
+                    //Help option
                     NavigationDrawerItem(
                         label = {
                             Text(
