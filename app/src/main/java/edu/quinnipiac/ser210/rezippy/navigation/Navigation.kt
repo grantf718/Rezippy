@@ -154,10 +154,10 @@ fun Navigation(recipeViewModel: RecipeViewModel){
                             }
                             // Call the ViewModel bulk request
                             // TODO: Improve this so that it wastes less API requests
+                            // TODO: Doesn't recompose favorites page properly.
                             recipeViewModel.fetchFavoriteRecipes()
                         },
-                        containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-                        contentColor = if (!recipeFavorited) Color.Gray else Color.Yellow,
+                        containerColor = if (!recipeFavorited) Color.Gray else Color.Yellow,
                         elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp),
                         modifier = Modifier
                             .clip(starclip)
@@ -187,6 +187,8 @@ fun Navigation(recipeViewModel: RecipeViewModel){
                     DetailScreen(
                         // Pass only the clicked recipe to the DetailScreen
                         recipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
+                            recipe.title == backStackEntry.arguments?.getString("name")
+                        } ?: bulkRecipesResponse?.body()?.firstOrNull() { recipe ->
                             recipe.title == backStackEntry.arguments?.getString("name")
                         }
                     )

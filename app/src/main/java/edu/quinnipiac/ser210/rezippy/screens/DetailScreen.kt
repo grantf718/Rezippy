@@ -37,7 +37,6 @@ fun DetailScreen(
             .fillMaxSize()
     ){
         if (recipe == null) {
-            //TODO: Navigate back to home screen if recipe null
             Text(
                 text = "Couldn't find recipe",
                 style = MaterialTheme.typography.displayLarge,
