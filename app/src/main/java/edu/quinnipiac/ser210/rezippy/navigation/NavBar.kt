@@ -38,10 +38,18 @@ fun NavBar (
     currentRoute: String?,
     modifier: Modifier = Modifier
 ) {
+    // Navbar text says 'Recipes' or 'Favorites' based on current screen
+    var navBarText = "Recipes" // Default to saying Recipes
+    if(currentRoute?.substringBefore("/") == Screens.HomeScreen.name){
+        navBarText = "Recipes"
+    } else if(currentRoute?.substringBefore("/") == Screens.FavoriteScreen.name){
+        navBarText = "Favorites"
+    }
+
     Column {
         CenterAlignedTopAppBar(
             title = {
-                Text("Recipes",
+                Text(navBarText,
                     color = MaterialTheme.colorScheme.secondary,
                     fontSize = 40.sp,
                     style = MaterialTheme.typography.bodyLarge,
