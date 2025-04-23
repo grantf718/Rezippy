@@ -58,7 +58,8 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
                 val response = recipeAPI.getRandomRecipes(number = number)
 
                 if (response.isSuccessful) {
-                    Log.d("API response: ", "Success")
+                    Log.d("API Random Request: ", "Success")
+                    _randomRecipesResult.value = response
                     _randomRecipesResult.value = response
                 }
                 else {
@@ -98,11 +99,11 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
                     val response = recipeAPI.getRecipesByIds(ids = ids)
 
                     if (response.isSuccessful) {
-                        Log.d("API response: ", response.body().toString())
+                        Log.d("API Bulk Request: ", "Success")
                         _bulkRecipesResult.value = response
                     }
                     else {
-                        Log.d("network error","Failed to load data")
+                        Log.d("network error","Failed to load data: ${response.code()}, ${response.errorBody()?.string()}")
                     }
                 } catch (e : Exception) {
                     e.message?.let { Log.d("network error", it) }
@@ -115,7 +116,7 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     fun fetchFavoriteRecipes() {
         viewModelScope.launch {
             _favoriteRecipes.value = itemDao.getAllItems()
-            fetchBulkRecipes(_favoriteRecipes.value.map { it!!.id }.fastJoinToString(","))
+            fetchBulkRecipes(_favoriteRecipes.value.map { it!!.id }.joinToString(","))
         }
     }
 
