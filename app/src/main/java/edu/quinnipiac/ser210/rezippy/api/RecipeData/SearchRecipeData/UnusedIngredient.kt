@@ -1,4 +1,4 @@
-package edu.quinnipiac.ser210.rezippy.api.SearchRecipeData
+package edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData
 
 data class UnusedIngredient(
     val aisle: String,

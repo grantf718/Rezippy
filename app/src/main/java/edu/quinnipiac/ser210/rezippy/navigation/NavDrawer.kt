@@ -42,7 +42,6 @@ fun NavDrawer(
     navController: NavController,
     scope: CoroutineScope,
     drawerState: DrawerState,
-    modifier: Modifier = Modifier,
     content: @Composable () -> Unit
 ) {
     val selectedScreen by remember { mutableStateOf(Screens.HomeScreen.name) }

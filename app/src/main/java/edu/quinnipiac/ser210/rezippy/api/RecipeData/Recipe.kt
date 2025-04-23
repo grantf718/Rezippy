@@ -1,4 +1,6 @@
-package edu.quinnipiac.ser210.rezippy.api.BulkRecipeData
+package edu.quinnipiac.ser210.rezippy.api.RecipeData
+
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.WinePairing
 
 data class Recipe(
     val aggregateLikes: Int,
@@ -26,7 +28,7 @@ data class Recipe(
     val servings: Int,
     val sourceName: String,
     val sourceUrl: String,
-    val spoonacularScore: Int,
+    val spoonacularScore: Double,
     val spoonacularSourceUrl: String,
     val summary: String,
     val sustainable: Boolean,
@@ -37,5 +39,5 @@ data class Recipe(
     val veryPopular: Boolean,
     val weightWatcherSmartPoints: Int,
     val whole30: Boolean,
-    val winePairing: WinePairing
+    val winePairing: WinePairing?
 )

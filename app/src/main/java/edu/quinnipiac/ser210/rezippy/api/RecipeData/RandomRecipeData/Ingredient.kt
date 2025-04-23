@@ -1,6 +1,6 @@
-package edu.quinnipiac.ser210.rezippy.api.RandomRecipeData
+package edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData
 
-data class Equipment(
+data class Ingredient(
     val id: Int,
     val image: String,
     val localizedName: String,

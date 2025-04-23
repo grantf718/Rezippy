@@ -1,6 +1,6 @@
-package edu.quinnipiac.ser210.rezippy.api.SearchRecipeData
+package edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData
 
-data class Recipe(
+data class RecipeIngredient(
     val id: Int,
     val image: String,
     val imageType: String,

@@ -9,10 +9,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.quinnipiac.ser210.rezippy.api.BulkRecipeData.BulkRecipes
-import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.RandomRecipes
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes
 import edu.quinnipiac.ser210.rezippy.api.RecipeAPI
-import edu.quinnipiac.ser210.rezippy.api.SearchRecipeData.RecipesByIngredient
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient
 import edu.quinnipiac.ser210.rezippy.data.Item
 import edu.quinnipiac.ser210.rezippy.data.ItemDao
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -24,17 +24,17 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     private val recipeAPI = RecipeAPI.create()
 
     // LiveData for random recipes
-    private val _randomRecipesResult = MutableLiveData<Response<RandomRecipes>>()
-    val randomRecipesResult: LiveData<Response<RandomRecipes>> = _randomRecipesResult
+    private val _randomRecipesResult = MutableLiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes>>()
+    val randomRecipesResult: LiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes>> = _randomRecipesResult
     private var isRecipesFetched = false    // Used to prevent repeated https requests
 
     // LiveData for search by ingredients
-    private val _recipesByIngredientResult = MutableLiveData<Response<RecipesByIngredient>>()
-    val recipesByIngredientResult: LiveData<Response<RecipesByIngredient>> = _recipesByIngredientResult
+    private val _recipesByIngredientResult = MutableLiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient>>()
+    val recipesByIngredientResult: LiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient>> = _recipesByIngredientResult
 
     // LiveData for bulk recipes by ID
-    private val _bulkRecipesResult = MutableLiveData<Response<BulkRecipes>>()
-    val bulkRecipesResult: LiveData<Response<BulkRecipes>> = _bulkRecipesResult
+    private val _bulkRecipesResult = MutableLiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes>>()
+    val bulkRecipesResult: LiveData<Response<edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes>> = _bulkRecipesResult
 
     // StateFlow to track user favorited recipes
     private val _favoriteRecipes = MutableStateFlow<List<Item?>>(arrayListOf())

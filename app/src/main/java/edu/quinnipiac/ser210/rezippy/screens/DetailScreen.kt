@@ -22,12 +22,9 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.ExtendedIngredient
-import edu.quinnipiac.ser210.rezippy.api.RandomRecipeData.Recipe
-import edu.quinnipiac.ser210.rezippy.ui.theme.textColor
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
 
 @Composable
 fun DetailScreen(

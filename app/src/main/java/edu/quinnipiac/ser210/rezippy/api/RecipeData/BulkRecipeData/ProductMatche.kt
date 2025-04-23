@@ -1,4 +1,4 @@
-package edu.quinnipiac.ser210.rezippy.api.BulkRecipeData
+package edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData
 
 data class ProductMatche(
     val averageRating: Double,

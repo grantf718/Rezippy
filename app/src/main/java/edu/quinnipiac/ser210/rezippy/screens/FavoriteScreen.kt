@@ -10,33 +10,32 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes
 import edu.quinnipiac.ser210.rezippy.navigation.Screens
 import edu.quinnipiac.ser210.rezippy.ui.components.RecipeCard
 
 @Composable
-fun HomeScreen(
-    randomRecipes: RandomRecipes?,
+fun FavoriteScreen(
+    favoriteRecipes: BulkRecipes?,
     navController: NavController,
     modifier: Modifier = Modifier
-){
+) {
     Surface(
         color = MaterialTheme.colorScheme.primaryContainer,
-        modifier = Modifier
-            .fillMaxSize()
-    ){
+        modifier = Modifier.fillMaxSize()
+    ) {
         LazyColumn(
             verticalArrangement = Arrangement.spacedBy(12.dp),
             modifier = Modifier
                 .fillMaxSize()
                 .padding(16.dp)
-        ){
-            randomRecipes?.recipes?.forEach { recipe ->
+        ) {
+            favoriteRecipes?.forEach { recipe ->
                 item {
                     RecipeCard(
                         recipe = recipe
                     ) {
-                        navController.navigate(route = Screens.DetailScreen.name+"/${recipe.title}")
+                        navController.navigate(route = Screens.DetailScreen.name + "/${recipe.title}")
                     }
                 }
             }

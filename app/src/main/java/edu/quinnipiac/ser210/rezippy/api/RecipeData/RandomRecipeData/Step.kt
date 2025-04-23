@@ -1,4 +1,4 @@
-package edu.quinnipiac.ser210.rezippy.api.RandomRecipeData
+package edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData
 
 data class Step(
     val equipment: List<Equipment>,

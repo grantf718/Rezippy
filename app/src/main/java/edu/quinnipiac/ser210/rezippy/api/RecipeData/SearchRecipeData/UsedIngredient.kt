@@ -1,12 +1,11 @@
-package edu.quinnipiac.ser210.rezippy.api.SearchRecipeData
+package edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData
 
-data class MissedIngredient(
+data class UsedIngredient(
     val aisle: String,
-    val amount: Double,
-    val extendedName: String,
+    val amount: Int,
     val id: Int,
     val image: String,
-    val meta: List<String>,
+    val meta: List<Any>,
     val name: String,
     val original: String,
     val originalName: String,
