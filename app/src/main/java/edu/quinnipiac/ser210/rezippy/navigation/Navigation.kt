@@ -18,6 +18,8 @@ import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -85,14 +87,11 @@ fun Navigation(
     val backStackEntry by navController.currentBackStackEntryAsState()
     val currentRoute = backStackEntry?.destination?.route
 
-    // Used by FAB for conditional coloring
-    var recipeFavorited by remember { mutableStateOf(false) }
-
     // Used for custom shape FAB
     val hexagon = remember {
         RoundedPolygon.star(
             5,
-            rounding = CornerRounding(0.04f)
+            rounding = CornerRounding(0.1f)
         )
     }
     val starclip = remember(hexagon) {
@@ -126,34 +125,40 @@ fun Navigation(
                     }
 
                     val context = LocalContext.current
+                    var recipeFavorited = remember { mutableStateOf(recipe != null) }
 
                     // Used to favorite recipes
                     LargeFloatingActionButton(
                         onClick = {
                             // Add to favorites
                             Log.d("FavoriteCheck", "Recipe $recipe")
-                            if(!recipeFavorited) {
+                            if(!recipeFavorited.value) {
                                 recipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
                                         recipe.title == backStackEntry?.arguments?.getString("name")
                                     }
 
                                 recipeViewModel.saveRecipe(Item(recipe!!.id))
-                                recipeFavorited = true
                                 Toast.makeText(context, "Recipe Saved", Toast.LENGTH_SHORT).show()
+                                recipeFavorited.value = true
+
                                 Log.d("FavoriteCheck:", "Saving item with ID: ${recipe?.id}")
                             }
                             // Remove from favorites
                             else {
                                 if (recipe != null) {
                                     recipeViewModel.deleteRecipe(Item(recipe!!.id))
-                                    recipeFavorited = false
                                     Toast.makeText(context, "Recipe Deleted", Toast.LENGTH_SHORT).show()
+                                    recipeFavorited.value = false
+
                                     Log.d("FavoriteCheck:", "Deleting item with ID: ${recipe!!.id}")
                                 }
                             }
                         },
-                        containerColor = if (!recipeFavorited) Color.Gray else Color.Yellow,
-                        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 32.dp),
+                        containerColor = if (!recipeFavorited.value) Color.Gray else colorResource(R.color.star),
+                        elevation = FloatingActionButtonDefaults.elevation(
+                            defaultElevation = 24.dp,
+                            pressedElevation = 16.dp
+                        ),
                         modifier = Modifier
                             .clip(starclip)
                     ) {

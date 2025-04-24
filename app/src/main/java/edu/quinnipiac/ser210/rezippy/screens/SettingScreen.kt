@@ -2,6 +2,7 @@ package edu.quinnipiac.ser210.rezippy.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -29,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -59,7 +61,6 @@ fun SettingScreen(
             // Light/Dark Mode
             SettingsButton(
                 "Toggle Light / Dark Mode",
-                Icons.Default.Settings,
                 onClick = onToggleTheme
             )
 
@@ -96,18 +97,21 @@ fun SettingScreen(
                                     text = "Rezippy",
                                     style = MaterialTheme.typography.bodyLarge,
                                     fontSize = 30.sp,
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.padding(10.dp))
                                 Text(
                                     text = "Created by",
                                     style = MaterialTheme.typography.titleSmall,
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold
                                 )
                                 Text(
                                     text = "Jean LaFrance\nGrant Foody",
                                     style = MaterialTheme.typography.bodyLarge,
-                                    textAlign = TextAlign.Center
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold
                                 )
                                 Spacer(modifier = Modifier.padding(12.dp))
                             }
@@ -116,6 +120,7 @@ fun SettingScreen(
                                     text = "Back",
                                     fontSize = 15.sp,
                                     color = MaterialTheme.colorScheme.onPrimary,
+                                    fontWeight = FontWeight.Bold
                                 )
                             }
                         }
@@ -130,7 +135,7 @@ fun SettingScreen(
 @Composable
 fun SettingsButton(
     buttonText: String,
-    icon: ImageVector,
+    icon: ImageVector? = null,
     onClick: () -> Unit
 ){
     OutlinedButton(
@@ -156,14 +161,27 @@ fun SettingsButton(
                 fontSize = 20.sp,
                 modifier = Modifier.align(Alignment.CenterVertically)
             )
-            Icon(
-                imageVector = icon,
-                contentDescription = null,
-                tint = MaterialTheme.colorScheme.onSecondary,
-                modifier = Modifier
-                    .size(25.dp)
-                    .align(Alignment.CenterVertically)
-            )
+            if (icon != null) {
+                Icon(
+                    imageVector = icon,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondary,
+                    modifier = Modifier
+                        .size(25.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
+            else {
+                val resource = if (isSystemInDarkTheme()) R.drawable.rounded_light_mode_24 else R.drawable.rounded_dark_mode_24
+                Icon(
+                    painter = painterResource(resource),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.onSecondary,
+                    modifier = Modifier
+                        .size(25.dp)
+                        .align(Alignment.CenterVertically)
+                )
+            }
         }
     }
 }
