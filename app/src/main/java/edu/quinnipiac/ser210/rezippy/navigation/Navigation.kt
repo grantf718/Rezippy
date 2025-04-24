@@ -5,6 +5,7 @@
 package edu.quinnipiac.ser210.rezippy.navigation
 
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Spacer
@@ -33,6 +34,8 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asComposePath
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Path
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
@@ -47,6 +50,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
+import edu.quinnipiac.ser210.rezippy.R
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
 import edu.quinnipiac.ser210.rezippy.data.Item
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
@@ -111,6 +115,8 @@ fun Navigation(recipeViewModel: RecipeViewModel){
                         recipe.title == backStackEntry?.arguments?.getString("name")
                     }
 
+                    val context = LocalContext.current
+
                     // Used to favorite recipes
                     LargeFloatingActionButton(
                         onClick = {
@@ -123,6 +129,7 @@ fun Navigation(recipeViewModel: RecipeViewModel){
 
                                 recipeViewModel.saveRecipe(Item(recipe!!.id))
                                 recipeFavorited = true
+                                Toast.makeText(context, "Recipe Saved", Toast.LENGTH_SHORT).show()
                                 Log.d("FavoriteCheck:", "Saving item with ID: ${recipe?.id}")
                             }
                             // Remove from favorites
@@ -130,12 +137,13 @@ fun Navigation(recipeViewModel: RecipeViewModel){
                                 if (recipe != null) {
                                     recipeViewModel.deleteRecipe(Item(recipe!!.id))
                                     recipeFavorited = false
+                                    Toast.makeText(context, "Recipe Deleted", Toast.LENGTH_SHORT).show()
                                     Log.d("FavoriteCheck:", "Deleting item with ID: ${recipe!!.id}")
                                 }
                             }
                         },
                         containerColor = if (!recipeFavorited) Color.Gray else Color.Yellow,
-                        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 8.dp),
+                        elevation = FloatingActionButtonDefaults.elevation(defaultElevation = 32.dp),
                         modifier = Modifier
                             .clip(starclip)
                     ) {
@@ -215,7 +223,7 @@ fun StarShapePreview() {
     val hexagon = remember {
         RoundedPolygon.star(
             5,
-            rounding = CornerRounding(0.04f)
+            rounding = CornerRounding(0.1f)
         )
     }
     val clip = remember(hexagon) {
@@ -224,7 +232,7 @@ fun StarShapePreview() {
     Box(
         modifier = Modifier
             .clip(clip)
-            .background(Color.Transparent)
+            .background(color = colorResource(R.color.star))
             .size(80.dp)
     )
 }
