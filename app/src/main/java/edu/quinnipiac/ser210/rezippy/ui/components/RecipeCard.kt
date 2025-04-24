@@ -86,7 +86,7 @@ fun RecipeCard(
                 }
 
                 Text(
-                    text = recipe.title,
+                    text = trimmedTitle,
                     style = MaterialTheme.typography.bodyLarge.copy(fontSize = fontSize),
                     color = MaterialTheme.colorScheme.onSecondary,
                     textAlign = TextAlign.Center,
