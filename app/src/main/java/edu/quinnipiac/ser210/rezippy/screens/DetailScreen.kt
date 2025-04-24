@@ -77,7 +77,7 @@ fun RecipeImage(image: String, modifier: Modifier = Modifier) {
             .height(320.dp)
             .background(MaterialTheme.colorScheme.primaryContainer)
             .clip(RoundedCornerShape(28.dp))
-    ) {
+    ){
         AsyncImage(
             model = image,
             contentDescription = null,

@@ -22,6 +22,7 @@ import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Rect
@@ -90,6 +91,9 @@ fun Navigation(
         RoundedPolygonShape(polygon = hexagon, rotation = 55f)
     }
 
+    // Current recipe (for share button)
+    var currentRecipe by remember { mutableStateOf<Recipe?>(null) }
+
     NavDrawer(
         drawerState = drawerState,
         navController = navController,
@@ -103,7 +107,8 @@ fun Navigation(
                     navController = navController,
                     scope = scope,
                     drawerState = drawerState,
-                    currentRoute = currentRoute
+                    currentRoute = currentRoute,
+                    recipe = currentRecipe
                 )
             },
             floatingActionButton = {
@@ -165,13 +170,15 @@ fun Navigation(
                     Screens.DetailScreen.name+"/{name}",
                     arguments = listOf(navArgument(name = "name") {type = NavType.StringType})
                 ) { backStackEntry ->
+                    // Get only the clicked recipe
+                    currentRecipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
+                        recipe.title == backStackEntry.arguments?.getString("name")
+                    } ?: bulkRecipesResponse?.body()?.firstOrNull() { recipe ->
+                        recipe.title == backStackEntry.arguments?.getString("name")
+                    }
                     DetailScreen(
                         // Pass only the clicked recipe to the DetailScreen
-                        recipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
-                            recipe.title == backStackEntry.arguments?.getString("name")
-                        } ?: bulkRecipesResponse?.body()?.firstOrNull() { recipe ->
-                            recipe.title == backStackEntry.arguments?.getString("name")
-                        }
+                        recipe = currentRecipe
                     )
                 }
                 composable(Screens.FavoriteScreen.name) {
