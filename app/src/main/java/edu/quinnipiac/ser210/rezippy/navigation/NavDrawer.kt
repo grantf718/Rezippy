@@ -198,7 +198,7 @@ fun NavDrawer(
                                 contentDescription = null
                             )
                         },
-                        selected = false,
+                        selected = selectedScreen.value == Screens.SettingScreen.name,
                         onClick = {
                             scope.launch {
                                 drawerState.close()
