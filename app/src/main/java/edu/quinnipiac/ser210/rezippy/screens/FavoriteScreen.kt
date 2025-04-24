@@ -30,7 +30,7 @@ fun FavoriteScreen(
     }
 
     Surface(
-        color = MaterialTheme.colorScheme.primaryContainer,
+        color = MaterialTheme.colorScheme.primary,
         modifier = Modifier.fillMaxSize()
     ) {
         LazyColumn(

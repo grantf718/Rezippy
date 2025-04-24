@@ -56,11 +56,17 @@ import edu.quinnipiac.ser210.rezippy.data.Item
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import edu.quinnipiac.ser210.rezippy.screens.DetailScreen
 import edu.quinnipiac.ser210.rezippy.screens.FavoriteScreen
+import edu.quinnipiac.ser210.rezippy.screens.HelpScreen
 import edu.quinnipiac.ser210.rezippy.screens.HomeScreen
+import edu.quinnipiac.ser210.rezippy.screens.SettingScreen
 import kotlin.math.max
 
 @Composable
-fun Navigation(recipeViewModel: RecipeViewModel){
+fun Navigation(
+    recipeViewModel: RecipeViewModel,
+    isDarkMode: Boolean,
+    onToggleTheme: () -> Unit
+){
     // NavController
     val navController = rememberNavController()
 
@@ -93,6 +99,9 @@ fun Navigation(recipeViewModel: RecipeViewModel){
         RoundedPolygonShape(polygon = hexagon, rotation = 55f)
     }
 
+    // Current recipe (for share button)
+    var currentRecipe by remember { mutableStateOf<Recipe?>(null) }
+
     NavDrawer(
         drawerState = drawerState,
         navController = navController,
@@ -106,7 +115,8 @@ fun Navigation(recipeViewModel: RecipeViewModel){
                     navController = navController,
                     scope = scope,
                     drawerState = drawerState,
-                    currentRoute = currentRoute
+                    currentRoute = currentRoute,
+                    recipe = currentRecipe
                 )
             },
             floatingActionButton = {
@@ -169,13 +179,15 @@ fun Navigation(recipeViewModel: RecipeViewModel){
                     Screens.DetailScreen.name+"/{name}",
                     arguments = listOf(navArgument(name = "name") {type = NavType.StringType})
                 ) { backStackEntry ->
+                    // Get only the clicked recipe
+                    currentRecipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
+                        recipe.title == backStackEntry.arguments?.getString("name")
+                    } ?: bulkRecipesResponse?.body()?.firstOrNull() { recipe ->
+                        recipe.title == backStackEntry.arguments?.getString("name")
+                    }
                     DetailScreen(
                         // Pass only the clicked recipe to the DetailScreen
-                        recipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
-                            recipe.title == backStackEntry.arguments?.getString("name")
-                        } ?: bulkRecipesResponse?.body()?.firstOrNull() { recipe ->
-                            recipe.title == backStackEntry.arguments?.getString("name")
-                        }
+                        recipe = currentRecipe
                     )
                 }
                 composable(Screens.FavoriteScreen.name) {
@@ -183,6 +195,16 @@ fun Navigation(recipeViewModel: RecipeViewModel){
                         recipeViewModel = recipeViewModel,
                         navController = navController
                     )
+                }
+                composable(Screens.SettingScreen.name){
+                    SettingScreen(
+                        navController = navController,
+                        isDarkMode = isDarkMode,
+                        onToggleTheme = onToggleTheme
+                    )
+                }
+                composable(Screens.HelpScreen.name){
+                    HelpScreen()
                 }
                 //TODO: Additional Screens(Suggestions/Settings/Help?)
             }

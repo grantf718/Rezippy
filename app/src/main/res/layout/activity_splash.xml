@@ -5,8 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SplashActivity"
-    android:backgroundTint="@color/primary">
+    android:backgroundTint="@color/primary"
+    tools:context=".SplashActivity">
 
     <com.airbnb.lottie.LottieAnimationView
         android:layout_width="match_parent"

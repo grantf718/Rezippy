@@ -5,6 +5,7 @@
 package edu.quinnipiac.ser210.rezippy.navigation
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
@@ -34,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -51,11 +53,12 @@ fun NavDrawer(
     ModalNavigationDrawer(
         drawerContent = {
             ModalDrawerSheet (
-                drawerContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                drawerContainerColor = MaterialTheme.colorScheme.primary,
             ) {
                 Column (
+                    verticalArrangement = Arrangement.spacedBy(12.dp),
                     modifier = Modifier.padding(horizontal = 16.dp)
-                        .background(MaterialTheme.colorScheme.tertiaryContainer)
+                        .background(MaterialTheme.colorScheme.primary)
                         .verticalScroll(rememberScrollState())
                 ) {
                     //Drawer title
@@ -63,7 +66,7 @@ fun NavDrawer(
                     Text(
                         text = "Rezippy",
                         style = MaterialTheme.typography.headlineLarge,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
@@ -73,7 +76,7 @@ fun NavDrawer(
                     Text(
                         text = "Pages",
                         style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        color = MaterialTheme.colorScheme.onPrimary,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
@@ -82,6 +85,7 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Home",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -101,12 +105,12 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     // Favorites option
@@ -114,6 +118,7 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Favorites",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -133,12 +138,12 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     // Suggestions option
@@ -146,6 +151,7 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Suggestions",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -164,28 +170,31 @@ fun NavDrawer(
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
 
-                    // Settings
+                    // Settings section
                     Text(
                         text = "Settings",
+                        fontSize = 20.sp,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
+
                     // Settings option
                     NavigationDrawerItem(
                         label = {
                             Text(
                                 text = "Settings",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -196,20 +205,21 @@ fun NavDrawer(
                                 contentDescription = null
                             )
                         },
-                        selected = false,
+                        selected = selectedScreen.value == Screens.SettingScreen.name,
                         onClick = {
                             scope.launch {
                                 drawerState.close()
-                                //TODO: Settings screen
+                                selectedScreen.value = Screens.SettingScreen.name
+                                navController.navigate(Screens.SettingScreen.name)
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     //Help option
@@ -217,11 +227,12 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Help",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
                         },
-                        selected = false,
+                        selected = selectedScreen.value == Screens.HelpScreen.name,
                         icon = {
                             Icon(
                                 imageVector = Icons.Outlined.Info,
@@ -231,16 +242,17 @@ fun NavDrawer(
                         onClick = {
                             scope.launch {
                                 drawerState.close()
-                                //TODO: Help Snackbar
+                                selectedScreen.value = Screens.HelpScreen.name
+                                navController.navigate(Screens.HelpScreen.name)
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
-                            unselectedContainerColor = MaterialTheme.colorScheme.tertiaryContainer,
+                            unselectedContainerColor = MaterialTheme.colorScheme.secondary,
                             selectedContainerColor = MaterialTheme.colorScheme.tertiary,
-                            unselectedIconColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedIconColor = MaterialTheme.colorScheme.onTertiary,
-                            unselectedTextColor = MaterialTheme.colorScheme.onTertiaryContainer,
-                            selectedTextColor = MaterialTheme.colorScheme.onTertiary
+                            unselectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedIconColor = MaterialTheme.colorScheme.onSecondary,
+                            unselectedTextColor = MaterialTheme.colorScheme.onSecondary,
+                            selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
                     Spacer(Modifier.height(12.dp))
