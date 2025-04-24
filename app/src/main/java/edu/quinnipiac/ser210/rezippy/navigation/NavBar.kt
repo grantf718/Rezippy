@@ -51,7 +51,8 @@ fun NavBar (
         Screens.HomeScreen.name -> "Recipes"
         Screens.FavoriteScreen.name -> "Favorites"
         Screens.SettingScreen.name -> "Settings"
-        else -> "Recipes"
+        Screens.HelpScreen.name -> "Help"
+        else -> "Change this text in NavBar.kt"
     }
 
     Column { // (For a divider line at the bottom)

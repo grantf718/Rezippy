@@ -35,6 +35,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -84,6 +85,7 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Home",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -116,6 +118,7 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Favorites",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -148,6 +151,7 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Suggestions",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -175,19 +179,22 @@ fun NavDrawer(
                         )
                     )
 
-                    // Settings
+                    // Settings section
                     Text(
                         text = "Settings",
+                        fontSize = 20.sp,
                         style = MaterialTheme.typography.titleLarge,
                         color = MaterialTheme.colorScheme.onTertiaryContainer,
                         fontWeight = FontWeight.Bold,
                         modifier = Modifier.padding(16.dp)
                     )
+
                     // Settings option
                     NavigationDrawerItem(
                         label = {
                             Text(
                                 text = "Settings",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
@@ -220,11 +227,12 @@ fun NavDrawer(
                         label = {
                             Text(
                                 text = "Help",
+                                fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
                             )
                         },
-                        selected = false,
+                        selected = selectedScreen.value == Screens.HelpScreen.name,
                         icon = {
                             Icon(
                                 imageVector = Icons.Outlined.Info,
@@ -234,7 +242,8 @@ fun NavDrawer(
                         onClick = {
                             scope.launch {
                                 drawerState.close()
-                                //TODO: Help Snackbar
+                                selectedScreen.value = Screens.HelpScreen.name
+                                navController.navigate(Screens.HelpScreen.name)
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(

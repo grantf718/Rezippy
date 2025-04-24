@@ -52,6 +52,7 @@ import edu.quinnipiac.ser210.rezippy.data.Item
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import edu.quinnipiac.ser210.rezippy.screens.DetailScreen
 import edu.quinnipiac.ser210.rezippy.screens.FavoriteScreen
+import edu.quinnipiac.ser210.rezippy.screens.HelpScreen
 import edu.quinnipiac.ser210.rezippy.screens.HomeScreen
 import edu.quinnipiac.ser210.rezippy.screens.SettingScreen
 import kotlin.math.max
@@ -193,6 +194,9 @@ fun Navigation(
                         isDarkMode = isDarkMode,
                         onToggleTheme = onToggleTheme
                     )
+                }
+                composable(Screens.HelpScreen.name){
+                    HelpScreen()
                 }
                 //TODO: Additional Screens(Suggestions/Settings/Help?)
             }
