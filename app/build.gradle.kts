@@ -82,6 +82,7 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
     implementation(libs.lottie.compose)
     testImplementation(libs.junit)
+    testImplementation (libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     androidTestImplementation(platform(libs.androidx.compose.bom))

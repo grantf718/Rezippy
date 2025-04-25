@@ -20,5 +20,5 @@ interface ItemDao {
     suspend fun getAllItems(): List<Item?>
 
     @Query("SELECT * FROM items WHERE id = :id")
-    suspend fun getItemById(id: Int): Int
+    suspend fun getItemById(id: Int): Item?
 }
