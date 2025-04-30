@@ -146,11 +146,11 @@ fun NavDrawer(
                             selectedTextColor = MaterialTheme.colorScheme.onSecondary
                         )
                     )
-                    // Suggestions option
+                    // AI option
                     NavigationDrawerItem(
                         label = {
                             Text(
-                                text = "Suggestions",
+                                text = "Get Suggestions",
                                 fontSize = 20.sp,
                                 style = MaterialTheme.typography.bodyLarge,
                                 fontWeight = FontWeight.Bold
@@ -162,11 +162,12 @@ fun NavDrawer(
                                 contentDescription = null
                             )
                         },
-                        selected = false,
+                        selected = selectedScreen.value == Screens.AIScreen.name,
                         onClick = {
                             scope.launch {
                                 drawerState.close()
-                                //TODO: AI Suggestions screen
+                                selectedScreen.value = Screens.AIScreen.name
+                                navController.navigate(Screens.AIScreen.name)
                             }
                         },
                         colors = NavigationDrawerItemDefaults.colors(
