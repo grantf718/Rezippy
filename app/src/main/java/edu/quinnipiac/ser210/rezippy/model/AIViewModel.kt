@@ -5,25 +5,25 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import edu.quinnipiac.ser210.rezippy.api.AIData.Content
 import edu.quinnipiac.ser210.rezippy.api.AIData.Requests.GeminiRequest
 import edu.quinnipiac.ser210.rezippy.api.AIData.Requests.GenerationConfig
-import edu.quinnipiac.ser210.rezippy.api.AIData.Part
+import edu.quinnipiac.ser210.rezippy.api.AIData.Requests.RequestContent
 import edu.quinnipiac.ser210.rezippy.api.AIData.Requests.SystemInstruction
-import edu.quinnipiac.ser210.rezippy.api.AIData.Response.GeminiResponse
+import edu.quinnipiac.ser210.rezippy.api.AIData.Response.FunctionCall
+import edu.quinnipiac.ser210.rezippy.api.AIData.TextPart
 import edu.quinnipiac.ser210.rezippy.api.GeminiAPI
 import kotlinx.coroutines.launch
-import retrofit2.Response
 
 class AIViewModel: ViewModel() {
     private val geminiAPI = GeminiAPI.create()
 
-    //LiveData for AI response content
-    private val _aiResponse = MutableLiveData<Response<GeminiResponse>>()
-    val aiResponse: LiveData<Response<GeminiResponse>> = _aiResponse
+    //Exposes function calls for UI
+    private val _functionCall = MutableLiveData<FunctionCall?>()
+    val functionCall: LiveData<FunctionCall?> = _functionCall
 
-    //Chat history to provide AI context
-    private val _chatHistory = MutableLiveData<List<Content>>()
+    //Chat history to provide AI context. Used by UI to build LazyColumn
+    private val _chatHistory = MutableLiveData<List<RequestContent>>()
+    private val chatHistory: LiveData<List<RequestContent>> = _chatHistory
 
     //System message to give AI direction on how to respond
     private val systemMessage = "You are a friendly and creative cooking assistant who helps users " +
@@ -42,17 +42,16 @@ class AIViewModel: ViewModel() {
 
                 //Construct request body from prompt
                 val request = GeminiRequest(
-                    contents = _chatHistory.value,
+                    contents = _chatHistory.value.orEmpty(),
                     systemInstruction = SystemInstruction(
-                        parts = listOf(Part(text = systemMessage))
+                        parts = listOf(TextPart(text = systemMessage))
                     ),
                     generationConfig = GenerationConfig(
-                        candidateCount = 1,    //Number of potential response candidates returned
-                        maxOutputTokens = 250, //Used to limit size of response
-                        stopSequences = null,  //Used to create a stop point if a specific string is generated
-                        temperature = 0.4      //Randomness of response, 0 is low, 2 is high
+                        candidateCount = 1,             //Number of potential response candidates returned
+                        maxOutputTokens = 250,          //Used to limit size of response
+                        stopSequences = listOf("\n\n"), //Used to create a stop point if a specific string is generated
+                        temperature = 0.4               //Randomness of response, 0 is low, 2 is high
                     ),
-                    //TODO: function calling from tools
                     tools = null
                 )
 
@@ -60,22 +59,38 @@ class AIViewModel: ViewModel() {
 
                 if (response.isSuccessful) {
                     Log.d("Gemini", "AI Response Success")
-                    _aiResponse.value = response
 
-                    //TODO: do the function calling
+                    val candidate = response.body()?.candidates?.get(0)
+                    val functionCall = candidate?.content?.parts?.get(0)?.functionCall
 
                     // Update chat history with AI response
-                    addChatHistory(
-                        role = "model",
-                        message = _aiResponse.value.body()?.candidates?.get(0)?.content?.parts?.get(0)?.text
-                            ?: "*Called function*"
-                    )
+                    if (functionCall != null) {
+                        Log.d("Gemini", "Function Call (finishReason: ${candidate.finishReason}) ${functionCall.name} params: ${functionCall.args}")
+                        addChatHistory(
+                            role = "model",
+                            message = "*Function call: ${functionCall.name}*"
+                        )
+                    }
+                    else {
+                        addChatHistory(
+                            role = "model",
+                            message = candidate?.content?.parts?.get(0)?.text ?: "No response"
+                        )
+                    }
                 }
                 else {
                     Log.e("Gemini", "API error: ${response.code()}")
+                    addChatHistory(
+                        role = "model",
+                        message = "Error fetching response."
+                    )
                 }
             } catch (e: Exception) {
                 e.message?.let { Log.e("Gemini Network Error", it) }
+                addChatHistory(
+                    role = "model",
+                    message = "Error fetching response."
+                )
             }
         }
     }
@@ -83,9 +98,9 @@ class AIViewModel: ViewModel() {
     fun addChatHistory(role: String, message: String) {
         val currentChat = _chatHistory.value.orEmpty().toMutableList()
         currentChat.add(
-            Content(
+            RequestContent(
                 role = role,
-                parts = listOf(Part(text = message))
+                parts = listOf(TextPart(text = message))
             )
         )
 
