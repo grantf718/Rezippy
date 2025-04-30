@@ -28,6 +28,12 @@ android {
             "API_KEY",
             apiKey
         )
+        val geminiApiKey= properties.getProperty("GEMINI_API_KEY") ?: ""
+        buildConfigField(
+            "String",
+            "GEMINI_API_KEY",
+            geminiApiKey
+        )
     }
 
     buildTypes {

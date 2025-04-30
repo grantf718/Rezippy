@@ -36,9 +36,9 @@ interface RecipeAPI {
     @GET("recipes/findByIngredients")
     suspend fun searchRecipesByIngredients(
         @Query("ingredients") ingredients: String,              // Comma-separated list of ingredients
-        @Query("number") number: Int = 4,                       // Recipes returned (1 - 100) default 10
+        @Query("number") number: Int = 1,                       // Recipes returned (1 - 100) default 10
         @Query("ranking") ranking: Int = 1,                     // Ranking (1 = max used ingredients, 2 = min missing ingredients)
-        @Query("ignorePantry") ignorePantry: Boolean = false    // Whether to ignore pantry ingredients
+        @Query("ignorePantry") ignorePantry: Boolean = true    // Whether to ignore pantry ingredients
     ): Response<RecipesByIngredient>
 
     // Method for bulk request for recipes by IDs
@@ -57,8 +57,8 @@ interface RecipeAPI {
 
         fun create() : RecipeAPI {
             val retrofit = Retrofit.Builder()
-                .addConverterFactory(GsonConverterFactory.create())
                 .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create())
                 .build()
             return retrofit.create(RecipeAPI::class.java)
 

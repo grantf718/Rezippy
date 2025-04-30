@@ -5,8 +5,6 @@
 package edu.quinnipiac.ser210.rezippy.model
 
 import android.util.Log
-import androidx.compose.runtime.collectAsState
-import androidx.compose.ui.util.fastJoinToString
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -67,16 +65,16 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
                 }
                 isRecipesFetched = true;
             } catch (e : Exception) {
-                e.message?.let { Log.d("network error", it) }
+                e.message?.let { Log.e("network error", it) }
             }
         }
     }
 
     // Search recipes by ingredients
-    fun searchRecipesByIngredients(number: Int, ingredients: String) {
+    fun searchRecipesByIngredients(ingredients: String) {
         viewModelScope.launch {
             try {
-                val response = recipeAPI.searchRecipesByIngredients(number = number, ingredients = ingredients)
+                val response = recipeAPI.searchRecipesByIngredients(ingredients = ingredients)
 
                 if (response.isSuccessful) {
                     Log.d("API response: ", response.body().toString())
