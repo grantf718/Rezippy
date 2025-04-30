@@ -59,6 +59,7 @@ fun NavBar (
         Screens.SettingScreen.name -> "Settings"
         Screens.HelpScreen.name -> "Help"
         Screens.DetailScreen.name -> recipe?.title
+        Screens.AIScreen.name -> "Rezippy AI"
         else -> "Change this text in NavBar.kt"
     }
 

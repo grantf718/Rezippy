@@ -18,8 +18,6 @@ import androidx.compose.material3.LargeFloatingActionButton
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.rememberDrawerState
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.collectAsState
-import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
@@ -30,12 +28,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Rect
 import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Matrix
 import androidx.compose.ui.graphics.Outline
+import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.graphics.asComposePath
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -56,6 +54,7 @@ import edu.quinnipiac.ser210.rezippy.R
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
 import edu.quinnipiac.ser210.rezippy.data.Item
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
+import edu.quinnipiac.ser210.rezippy.screens.AIScreen
 import edu.quinnipiac.ser210.rezippy.screens.DetailScreen
 import edu.quinnipiac.ser210.rezippy.screens.FavoriteScreen
 import edu.quinnipiac.ser210.rezippy.screens.HelpScreen
@@ -211,7 +210,9 @@ fun Navigation(
                 composable(Screens.HelpScreen.name){
                     HelpScreen()
                 }
-                //TODO: Additional Screens(Suggestions/Settings/Help?)
+                composable(Screens.AIScreen.name){
+                    AIScreen()
+                }
             }
         }
     }

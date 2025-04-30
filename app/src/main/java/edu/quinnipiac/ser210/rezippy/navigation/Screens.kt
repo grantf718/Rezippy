@@ -5,7 +5,8 @@ enum class Screens {
     DetailScreen,
     FavoriteScreen,
     SettingScreen,
-    HelpScreen;
+    HelpScreen,
+    AIScreen;
     companion object {
         fun fromRoute(route: String?): Screens
                 = when (route?.substringBefore("/")) {
@@ -14,6 +15,7 @@ enum class Screens {
             FavoriteScreen.name -> FavoriteScreen
             SettingScreen.name -> SettingScreen
             HelpScreen.name -> HelpScreen
+            AIScreen.name -> AIScreen
             null -> HomeScreen
             else -> throw IllegalArgumentException("Route $route not recognized")
         }
