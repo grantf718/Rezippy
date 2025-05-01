@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -29,6 +30,9 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateListOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,19 +45,49 @@ import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import edu.quinnipiac.ser210.rezippy.api.AIData.MessageItem
+import edu.quinnipiac.ser210.rezippy.model.AIViewModel
+import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
+import edu.quinnipiac.ser210.rezippy.navigation.Screens
+import edu.quinnipiac.ser210.rezippy.ui.components.RecipeCard
 import edu.quinnipiac.ser210.rezippy.ui.theme.AppTheme
 
 @Composable
-fun AIScreen(){
+fun AIScreen(
+    aiViewModel: AIViewModel,
+    recipeViewModel: RecipeViewModel,
+    navController: NavController
+){
+    // AI ViewModel values
+    val chatHistory by aiViewModel.chatHistory.observeAsState()
+    val functionCall by aiViewModel.functionCall.observeAsState()
 
-    val messages = remember { mutableStateListOf<MessageItem>() }
+    LaunchedEffect (functionCall) {
+        functionCall?.let { call ->
+            if (call.name == "search_recipes_by_ingredients") {
+                recipeViewModel.searchRecipesByIngredients(call.args["ingredients"] ?: "")
+                aiViewModel.clearFunctionCall()
+            }
+        }
+    }
+
+    // Recipe ViewModel values
+    val recipesByIngredient by recipeViewModel.recipesByIngredient.observeAsState()
+
+    // User input
     val inputText = remember { mutableStateOf("") }
 
-    // Initial AI message
-    if (messages.isEmpty()) {
-        messages.add(MessageItem(false, "I'm Rezippy AI! Ask me for recipe suggestions based on the ingredients in your fridge!"))
-        messages.add(MessageItem(true, "testing laksjdhaskjhdakjshdjashdgjashdgajshdgjashdgjahsdgjashdgjashgdjashgdajhsdg"))
+    // Set initial chat message
+    LaunchedEffect (chatHistory) {
+        if (chatHistory.isNullOrEmpty()) {
+            aiViewModel.addChatHistory(
+                role = "model",
+                message = "I'm Rezippy AI! Ask me for recipe suggestions based on the ingredients in your fridge!"
+            )
+            // Double check functionCalls is empty
+            aiViewModel.clearFunctionCall()
+        }
     }
 
     Surface(
@@ -72,11 +106,37 @@ fun AIScreen(){
                     .padding(12.dp)
                     .weight(9f)
             ){
-                items(messages.size) { index ->
-                    val msg = messages[index]
-                    Message(sentByUser = msg.sentByUser, messageText = msg.text)
+                var functionIndex = 0
+                items(chatHistory ?: emptyList()) { msg ->
+                    // Check for function call to display RecipeCard
+                    if (msg.parts[0].text.startsWith("*Function call:")) {
+                        // Include a message and a RecipeCard to navigate to detail page
+                        Message(
+                            sentByUser = false,
+                            messageText = "Check out this recipe!"
+                        )
+
+                        // Include RecipeCard
+                        val recipe = recipesByIngredient?.get(functionIndex)
+                        if (recipe != null) {
+                            RecipeCard(
+                                recipe = recipe,
+                                modifier = Modifier.padding(end = 64.dp, top = 10.dp, bottom = 10.dp)
+                            ) {
+                                navController.navigate(route = Screens.DetailScreen.name+"/${recipe.title}")
+                            }
+                            functionIndex++
+                        }
+                    }
+                    else {
+                        Message(
+                            sentByUser = msg.role == "user",
+                            messageText = msg.parts[0].text
+                        )
+                    }
                 }
             }
+
             // Send message area
             Surface(
                 color = MaterialTheme.colorScheme.primary,
@@ -89,7 +149,7 @@ fun AIScreen(){
                 val sendTypedUserMessage = {
                     val message = inputText.value.trim()
                     if (message.isNotEmpty()) {
-                        messages.add(MessageItem(true, message))
+                        aiViewModel.fetchResponse(message = message)
                         inputText.value = "" // clear input
                         keyboardController?.hide()
                     }
@@ -108,7 +168,6 @@ fun AIScreen(){
                         value = inputText.value,
                         onValueChange = { inputText.value = it },
                         shape = RoundedCornerShape(99.dp),
-                        label = null,
                         singleLine = true,
                         placeholder = {
                             Text("Type to Rezippy AI", fontWeight = FontWeight.Medium)
@@ -121,7 +180,6 @@ fun AIScreen(){
                             focusedPlaceholderColor = MaterialTheme.colorScheme.tertiary,
                             unfocusedPlaceholderColor = MaterialTheme.colorScheme.tertiary
                         ),
-
                         modifier = Modifier
                             .weight(5f)
                             .border(
@@ -162,11 +220,7 @@ fun AIScreen(){
                         )
                     }
                 }
-
-
-
             }
-
         }
     }
 }
@@ -223,6 +277,6 @@ fun Message(
 @Composable
 fun AIPreview(){
     AppTheme(){
-        AIScreen()
+//        AIScreen()
     }
 }

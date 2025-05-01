@@ -13,6 +13,7 @@ import edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes
 import edu.quinnipiac.ser210.rezippy.api.RecipeAPI
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.SingleRecipe
 import edu.quinnipiac.ser210.rezippy.data.Item
 import edu.quinnipiac.ser210.rezippy.data.ItemDao
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -29,8 +30,8 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     private var isRecipesFetched = false    // Used to prevent repeated https requests
 
     // LiveData for search by ingredients
-    private val _recipesByIngredientResult = MutableLiveData<Response<RecipesByIngredient>>()
-    val recipesByIngredientResult: LiveData<Response<RecipesByIngredient>> = _recipesByIngredientResult
+    private val _recipesByIngredient = MutableLiveData<List<SingleRecipe>>()
+    val recipesByIngredient: LiveData<List<SingleRecipe>> = _recipesByIngredient
 
     // LiveData for bulk recipes by ID
     private val _bulkRecipesResult = MutableLiveData<Response<BulkRecipes>>()
@@ -70,15 +71,36 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
         }
     }
 
-    // Search recipes by ingredients
+    // Search recipe by ingredients
     fun searchRecipesByIngredients(ingredients: String) {
+        if (ingredients.isEmpty()) {
+            return
+        }
+
         viewModelScope.launch {
             try {
+                // Call on API endpoint to get a list of possible recipes
                 val response = recipeAPI.searchRecipesByIngredients(ingredients = ingredients)
 
                 if (response.isSuccessful) {
                     Log.d("API response: ", response.body().toString())
-                    _recipesByIngredientResult.value = response
+                    //Call on another API endpoint to get specific recipe details for given ID
+                    val recipeId = response.body()?.firstOrNull()?.id ?: -1
+                    if (recipeId == -1) {
+                        return@launch
+                    }
+                    val singleRecipeResponse = recipeAPI.getSingleRecipe(recipeId)
+
+                    if (singleRecipeResponse.isSuccessful) {
+                        Log.d("Fetched Recipe:", singleRecipeResponse.body().toString())
+
+                        // Update livedata
+                        val currentRecipes = _recipesByIngredient.value.orEmpty().toMutableList()
+                        singleRecipeResponse.body()?.let { currentRecipes.add(it) }
+                        _recipesByIngredient.value = currentRecipes
+                    } else {
+                        Log.d("Network Error", "Failed to fetch recipe(id:${recipeId}) details: ${singleRecipeResponse.errorBody()?.string()}")
+                    }
                 }
                 else {
                     Log.d("network error","Failed to load data")
@@ -134,5 +156,9 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
         viewModelScope.launch {
             itemDao.getItemById(id)
         }
+    }
+
+    fun clearRecipesByIngredient() {
+        _recipesByIngredient.value = emptyList()
     }
 }

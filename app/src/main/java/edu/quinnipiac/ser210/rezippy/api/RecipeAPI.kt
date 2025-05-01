@@ -13,6 +13,8 @@ import retrofit2.http.Headers
 import edu.quinnipiac.ser210.rezippy.BuildConfig
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.SingleRecipe
+import retrofit2.http.Path
 import retrofit2.http.Query
 
 interface RecipeAPI {
@@ -51,6 +53,17 @@ interface RecipeAPI {
     suspend fun getRecipesByIds(
         @Query("ids") ids: String,                               // Comma-separated list of IDs
     ): Response<BulkRecipes>
+
+    // Method to get Recipe for single ID
+    @Headers(
+        // API_KEY stored in local.properties
+        "x-rapidapi-key: ${BuildConfig.API_KEY}",
+        "x-rapidapi-host: spoonacular-recipe-food-nutrition-v1.p.rapidapi.com"
+    )
+    @GET("recipes/{id}/information")
+    suspend fun getSingleRecipe(
+        @Path("id") id: Int
+    ): Response<SingleRecipe>
 
     companion object {
         const val BASE_URL = "https://spoonacular-recipe-food-nutrition-v1.p.rapidapi.com/"

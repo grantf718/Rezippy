@@ -2,7 +2,7 @@ package edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData
 
 data class UsedIngredient(
     val aisle: String,
-    val amount: Int,
+    val amount: Double,
     val id: Int,
     val image: String,
     val meta: List<Any>,

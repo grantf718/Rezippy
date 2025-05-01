@@ -33,11 +33,13 @@ import androidx.compose.ui.unit.sp
 import coil3.compose.AsyncImage
 import edu.quinnipiac.ser210.rezippy.R
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.RecipeInterface
 import edu.quinnipiac.ser210.rezippy.ui.theme.AppTheme
 
 @Composable
 fun RecipeCard(
-    recipe: Recipe,
+    recipe: RecipeInterface,
+    modifier: Modifier = Modifier,
     onItemClick: (String) -> Unit = {}
 ){
     Card(
@@ -47,7 +49,7 @@ fun RecipeCard(
             containerColor = MaterialTheme.colorScheme.secondary
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 8.dp),
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .height(240.dp)
             .clip(RoundedCornerShape(28.dp))

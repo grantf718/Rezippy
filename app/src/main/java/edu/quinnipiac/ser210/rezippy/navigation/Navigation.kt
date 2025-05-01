@@ -44,6 +44,7 @@ import androidx.graphics.shapes.CornerRounding
 import androidx.graphics.shapes.RoundedPolygon
 import androidx.graphics.shapes.star
 import androidx.graphics.shapes.toPath
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -53,6 +54,7 @@ import androidx.navigation.navArgument
 import edu.quinnipiac.ser210.rezippy.R
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
 import edu.quinnipiac.ser210.rezippy.data.Item
+import edu.quinnipiac.ser210.rezippy.model.AIViewModel
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import edu.quinnipiac.ser210.rezippy.screens.AIScreen
 import edu.quinnipiac.ser210.rezippy.screens.DetailScreen
@@ -76,6 +78,9 @@ fun Navigation(
     val randomRecipesResponse = randomRecipesResult.value    // Random recipes to populate HomeScreen
     val bulkRecipesResult = recipeViewModel.bulkRecipesResult.observeAsState()
     val bulkRecipesResponse = bulkRecipesResult.value        // Bulk recipe requests used by FavoriteScreen
+
+    // AI ViewModel
+    val aiViewModel: AIViewModel = viewModel()
 
     // Navigation Drawer
     val drawerState = rememberDrawerState(initialValue = DrawerValue.Closed)
@@ -211,7 +216,11 @@ fun Navigation(
                     HelpScreen()
                 }
                 composable(Screens.AIScreen.name){
-                    AIScreen()
+                    AIScreen(
+                        recipeViewModel = recipeViewModel,
+                        aiViewModel = aiViewModel,
+                        navController = navController
+                    )
                 }
             }
         }
