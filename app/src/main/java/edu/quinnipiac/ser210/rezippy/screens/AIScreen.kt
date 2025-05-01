@@ -17,6 +17,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.text.input.InputTransformation.Companion.keyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.Card
@@ -38,7 +39,9 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.ImeAction
@@ -52,6 +55,7 @@ import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import edu.quinnipiac.ser210.rezippy.navigation.Screens
 import edu.quinnipiac.ser210.rezippy.ui.components.RecipeCard
 import edu.quinnipiac.ser210.rezippy.ui.theme.AppTheme
+import edu.quinnipiac.ser210.rezippy.ui.theme.bodyFontFamily
 
 @Composable
 fun AIScreen(
@@ -170,15 +174,24 @@ fun AIScreen(
                         shape = RoundedCornerShape(99.dp),
                         singleLine = true,
                         placeholder = {
-                            Text("Type to Rezippy AI", fontWeight = FontWeight.Medium)
+                            Text(
+                                text = "Type to Rezippy AI",
+                                fontWeight = FontWeight.Bold,
+                                fontFamily = FontFamily.Default
+                            )
                         },
+                        textStyle = TextStyle(
+                            fontFamily = FontFamily.Default,
+                        ),
                         colors = TextFieldDefaults.colors(
                             unfocusedContainerColor = MaterialTheme.colorScheme.secondary,
                             focusedContainerColor = MaterialTheme.colorScheme.secondary,
                             unfocusedTextColor = MaterialTheme.colorScheme.onSecondary,
                             focusedTextColor = MaterialTheme.colorScheme.onSecondary,
                             focusedPlaceholderColor = MaterialTheme.colorScheme.tertiary,
-                            unfocusedPlaceholderColor = MaterialTheme.colorScheme.tertiary
+                            unfocusedPlaceholderColor = MaterialTheme.colorScheme.tertiary,
+                            focusedIndicatorColor = Color.Transparent,
+                            unfocusedIndicatorColor = Color.Transparent
                         ),
                         modifier = Modifier
                             .weight(5f)
