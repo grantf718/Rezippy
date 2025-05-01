@@ -10,13 +10,13 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
-import edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.RecipeInterface
 import edu.quinnipiac.ser210.rezippy.navigation.Screens
 import edu.quinnipiac.ser210.rezippy.ui.components.RecipeCard
 
 @Composable
 fun HomeScreen(
-    randomRecipes: RandomRecipes?,
+    recipes: List<RecipeInterface>?,
     navController: NavController,
     modifier: Modifier = Modifier
 ) {
@@ -30,7 +30,7 @@ fun HomeScreen(
                 .fillMaxSize()
                 .padding(16.dp)
         ) {
-            randomRecipes?.recipes?.forEach { recipe ->
+            recipes?.forEach { recipe ->
                 item {
                     RecipeCard(
                         recipe = recipe

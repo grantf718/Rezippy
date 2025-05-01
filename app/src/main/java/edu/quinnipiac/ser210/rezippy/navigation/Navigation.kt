@@ -52,7 +52,7 @@ import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import edu.quinnipiac.ser210.rezippy.R
-import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.RecipeInterface
 import edu.quinnipiac.ser210.rezippy.data.Item
 import edu.quinnipiac.ser210.rezippy.model.AIViewModel
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
@@ -103,7 +103,7 @@ fun Navigation(
     }
 
     // Current recipe (for share button)
-    var currentRecipe by remember { mutableStateOf<Recipe?>(null) }
+    var currentRecipe by remember { mutableStateOf<RecipeInterface?>(null) }
 
     NavDrawer(
         drawerState = drawerState,
@@ -124,7 +124,7 @@ fun Navigation(
             },
             floatingActionButton = {
                 if (currentRoute?.substringBefore("/") == Screens.DetailScreen.name) {
-                    var recipe: Recipe? = bulkRecipesResponse?.body()?.firstOrNull { recipe ->
+                    var recipe: RecipeInterface? = bulkRecipesResponse?.body()?.firstOrNull { recipe ->
                         recipe.title == backStackEntry?.arguments?.getString("name")
                     }
 
@@ -137,7 +137,7 @@ fun Navigation(
                             // Add to favorites
                             Log.d("FavoriteCheck", "Recipe $recipe")
                             if(!recipeFavorited.value) {
-                                recipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
+                                recipe = randomRecipesResponse?.firstOrNull { recipe ->
                                         recipe.title == backStackEntry?.arguments?.getString("name")
                                     }
 
@@ -180,7 +180,7 @@ fun Navigation(
             ) {
                 composable(Screens.HomeScreen.name) {
                     HomeScreen(
-                        randomRecipes = randomRecipesResponse?.body(),
+                        recipes = randomRecipesResponse,
                         navController = navController
                     )
                 }
@@ -189,7 +189,7 @@ fun Navigation(
                     arguments = listOf(navArgument(name = "name") {type = NavType.StringType})
                 ) { backStackEntry ->
                     // Get only the clicked recipe
-                    currentRecipe = randomRecipesResponse?.body()?.recipes?.firstOrNull { recipe ->
+                    currentRecipe = randomRecipesResponse?.firstOrNull { recipe ->
                         recipe.title == backStackEntry.arguments?.getString("name")
                     } ?: bulkRecipesResponse?.body()?.firstOrNull() { recipe ->
                         recipe.title == backStackEntry.arguments?.getString("name")

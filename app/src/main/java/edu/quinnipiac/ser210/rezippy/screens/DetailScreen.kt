@@ -24,11 +24,11 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import coil3.compose.AsyncImage
-import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.RecipeInterface
 
 @Composable
 fun DetailScreen(
-    recipe: Recipe?,
+    recipe: RecipeInterface?,
     modifier: Modifier = Modifier
 ){
     Surface(
@@ -90,7 +90,7 @@ fun RecipeImage(image: String, modifier: Modifier = Modifier) {
 
 @Composable
 fun RecipeDetails(
-    recipe: Recipe,
+    recipe: RecipeInterface?,
     modifier: Modifier = Modifier
 ) {
     Column (
@@ -102,23 +102,27 @@ fun RecipeDetails(
             .padding(4.dp)
     ){
         // Recipe title
-        Text(
-            text = recipe.title,
-            style = MaterialTheme.typography.headlineLarge,
-            color = MaterialTheme.colorScheme.onPrimary,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Center,
-        )
+        if (recipe != null) {
+            Text(
+                text = recipe.title,
+                style = MaterialTheme.typography.headlineLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Center,
+            )
+        }
 
         // Recipe summary
-        Text(
-            // Remove html tags from summary
-            text = recipe.summary.replace(Regex("<[^>]*>"), ""),
-            style = MaterialTheme.typography.bodyLarge,
-            color = MaterialTheme.colorScheme.onPrimary,
-            fontWeight = FontWeight.Bold,
-            textAlign = TextAlign.Left
-        )
+        if (recipe != null) {
+            Text(
+                // Remove html tags from summary
+                text = recipe.summary.replace(Regex("<[^>]*>"), ""),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onPrimary,
+                fontWeight = FontWeight.Bold,
+                textAlign = TextAlign.Left
+            )
+        }
         HorizontalDivider(
             thickness = 2.dp,
             color = MaterialTheme.colorScheme.tertiary,
@@ -135,7 +139,7 @@ fun RecipeDetails(
         )
         Text(
             text = buildString {
-                recipe.extendedIngredients.forEach {ingredient ->
+                recipe?.extendedIngredients?.forEach {ingredient ->
                     append("\u2022\t${ingredient.name}\n")
                 }
             },
@@ -160,7 +164,7 @@ fun RecipeDetails(
         )
         Text(
             text = buildString {
-                recipe.instructions
+                recipe?.instructions.toString()
                     .replace(Regex("<[^>]*>"), "")
                     .split("\n").forEachIndexed {index, instruction ->
                     append("${index + 1}.\t${instruction}\n")

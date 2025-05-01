@@ -30,24 +30,32 @@ class AIViewModel: ViewModel() {
     val chatHistory: LiveData<List<RequestContent>> = _chatHistory
 
     //System message to give AI direction on how to respond
-    private val systemMessage = "You are a friendly and helpful cooking assistant who prefers to take action. Respond concisely. " +
-            "Limit answers to a few sentences. Your primary goal is to suggest meals, recommend recipes based " +
-            "on ingredients, and answer cooking questions. **Whenever possible, if a function is available to " +
-            "address the user's request, prioritize calling that function over asking for more information.** " +
-            "If the user provides a vague request for recipes without specific ingredients, proactively suggest " +
-            "a few common ingredients in a comma-separated format (e.g., 'beef, onions, carrots') that could be " +
-            "used to search for recipes. Only ask for clarification as a last resort if you absolutely cannot " +
-            "proceed without more information and no suitable function can be called."
+    private val systemMessage = "You are a friendly and creative cooking assistant who helps users " +
+            "find quick, easy, and delicious recipes. Respond in a concise and approachable tone. Limit " +
+            "answers to a few sentences. Your primary goal is to suggest meals, recommend recipes based " +
+            "on ingredients, and answer cooking questions. If a function is available to fulfill the user’s " +
+            "request, prefer calling the function instead of replying with text. If the user seems unsure, " +
+            "gently offer simple ideas or ingredient-based suggestions. If you have already called a function, " +
+            "chat with the user to get a better idea of what they are looking for."
 
-    //        "You are a friendly and creative cooking assistant who helps users " +
-    //        "find quick, easy, and delicious recipes. Respond in a concise and approachable tone. Limit " +
-    //        "answers to a few sentences. Your primary goal is to suggest meals, recommend recipes based " +
-    //        "on ingredients, and answer cooking questions. If a function is available to fulfill the user’s " +
-    //        "request, prefer calling the function instead of replying with text. **If the user's request for " +
-    //        "recipe suggestions is vague or lacks specific ingredients, instead of directly asking the user, " +
-    //        "generate a short, comma-separated list of common or complementary ingredients that could be used " +
-    //        "to find recipes (e.g., 'chicken, broccoli, rice').** If the user seems unsure, gently offer simple " +
-    //        "ideas or ingredient-based suggestions."
+//            "You are a friendly and creative cooking assistant who helps users " +
+//            "find quick, easy, and delicious recipes. Respond in a concise and approachable tone. Limit " +
+//            "answers to a few sentences. Your primary goal is to suggest meals, recommend recipes based " +
+//            "on ingredients, and answer cooking questions. If a function is available to fulfill the user’s " +
+//            "request, prefer calling the function instead of replying with text. **If the user's request for " +
+//            "recipe suggestions is vague or lacks specific ingredients, instead of directly asking the user, " +
+//            "generate a short, comma-separated list of common or complementary ingredients that could be used " +
+//            "to find recipes (e.g., 'chicken, broccoli, rice').** If the user seems unsure, gently offer simple " +
+//            "ideas or ingredient-based suggestions."
+
+//            "You are a friendly and helpful cooking assistant who prefers to take action. Respond concisely. " +
+//            "Limit answers to a few sentences. Your primary goal is to suggest meals, recommend recipes based " +
+//            "on ingredients, and answer cooking questions. **Whenever possible, if a function is available to " +
+//            "address the user's request, prioritize calling that function over asking for more information.** " +
+//            "If the user provides a vague request for recipes without specific ingredients, proactively suggest " +
+//            "a few common ingredients in a comma-separated format (e.g., 'beef, onions, carrots') that could be " +
+//            "used to search for recipes. Only ask for clarification as a last resort if you absolutely cannot " +
+//            "proceed without more information and no suitable function can be called."
 
     //Fetch gemini response
     fun fetchResponse(message: String) {

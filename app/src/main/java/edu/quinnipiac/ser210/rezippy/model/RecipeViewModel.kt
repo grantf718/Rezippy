@@ -12,6 +12,8 @@ import androidx.lifecycle.viewModelScope
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.BulkRecipeData.BulkRecipes
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.RandomRecipeData.RandomRecipes
 import edu.quinnipiac.ser210.rezippy.api.RecipeAPI
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.RecipeInterface
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.SearchRecipeData.RecipesByIngredient
 import edu.quinnipiac.ser210.rezippy.api.RecipeData.SingleRecipe
 import edu.quinnipiac.ser210.rezippy.data.Item
@@ -25,8 +27,8 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
     private val recipeAPI = RecipeAPI.create()
 
     // LiveData for random recipes
-    private val _randomRecipesResult = MutableLiveData<Response<RandomRecipes>>()
-    val randomRecipesResult: LiveData<Response<RandomRecipes>> = _randomRecipesResult
+    private val _randomRecipesResult = MutableLiveData<List<RecipeInterface>>()
+    val randomRecipesResult: LiveData<List<RecipeInterface>> = _randomRecipesResult
     private var isRecipesFetched = false    // Used to prevent repeated https requests
 
     // LiveData for search by ingredients
@@ -58,8 +60,7 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
 
                 if (response.isSuccessful) {
                     Log.d("API Random Request: ", "Success")
-                    _randomRecipesResult.value = response
-                    _randomRecipesResult.value = response
+                    _randomRecipesResult.value = response.body()?.recipes
                 }
                 else {
                     Log.d("Network Error","Failed to load data: ${response.code()}, ${response.errorBody()?.string()}")
@@ -98,6 +99,11 @@ class RecipeViewModel(private val itemDao: ItemDao) : ViewModel() {
                         val currentRecipes = _recipesByIngredient.value.orEmpty().toMutableList()
                         singleRecipeResponse.body()?.let { currentRecipes.add(it) }
                         _recipesByIngredient.value = currentRecipes
+
+                        // Add recipe to randomRecipeResult so its navigable
+                        val currentRandomRecipes = _randomRecipesResult.value.orEmpty().toMutableList()
+                        singleRecipeResponse.body()?.let { currentRandomRecipes.add(it) }
+                        _randomRecipesResult.value = currentRandomRecipes
                     } else {
                         Log.d("Network Error", "Failed to fetch recipe(id:${recipeId}) details: ${singleRecipeResponse.errorBody()?.string()}")
                     }

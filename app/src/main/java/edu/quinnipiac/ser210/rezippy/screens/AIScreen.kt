@@ -13,7 +13,9 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
@@ -49,13 +51,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import edu.quinnipiac.ser210.rezippy.api.AIData.MessageItem
 import edu.quinnipiac.ser210.rezippy.model.AIViewModel
 import edu.quinnipiac.ser210.rezippy.model.RecipeViewModel
 import edu.quinnipiac.ser210.rezippy.navigation.Screens
 import edu.quinnipiac.ser210.rezippy.ui.components.RecipeCard
 import edu.quinnipiac.ser210.rezippy.ui.theme.AppTheme
-import edu.quinnipiac.ser210.rezippy.ui.theme.bodyFontFamily
 
 @Composable
 fun AIScreen(
@@ -94,6 +94,12 @@ fun AIScreen(
         }
     }
 
+    // Used for lazycolumn autoscroll
+    val listState = rememberLazyListState()
+    LaunchedEffect(chatHistory?.size) {
+        listState.animateScrollToItem((chatHistory?.size ?: 0))
+    }
+
     Surface(
         color = MaterialTheme.colorScheme.primary,
         modifier = Modifier
@@ -105,6 +111,7 @@ fun AIScreen(
         ){
             // Scrollable list of messages
             LazyColumn(
+                state = listState,
                 verticalArrangement = Arrangement.spacedBy(12.dp),
                 modifier = Modifier
                     .padding(12.dp)
@@ -121,7 +128,7 @@ fun AIScreen(
                         )
 
                         // Include RecipeCard
-                        val recipe = recipesByIngredient?.get(functionIndex)
+                        val recipe = recipesByIngredient?.getOrNull(functionIndex)
                         if (recipe != null) {
                             RecipeCard(
                                 recipe = recipe,

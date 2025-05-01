@@ -8,7 +8,6 @@ import android.content.Intent
 import android.util.Log
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.size
 import androidx.compose.material.icons.Icons
@@ -30,14 +29,12 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import edu.quinnipiac.ser210.rezippy.api.RecipeData.Recipe
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import androidx.compose.ui.unit.coerceIn
+import edu.quinnipiac.ser210.rezippy.api.RecipeData.RecipeInterface
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -47,7 +44,7 @@ fun NavBar (
     drawerState: DrawerState,
     currentRoute: String?,
     modifier: Modifier = Modifier,
-    recipe: Recipe?
+    recipe: RecipeInterface?
 ) {
     // Get context (for share button)
     val context = LocalContext.current
@@ -136,7 +133,7 @@ fun NavBar (
                                 append("• ${ingredient.name}\n")
                             }
                             append("\nInstructions:\n")
-                            append(it.instructions
+                            append(it.instructions.toString()
                                 .replace(Regex("<[^>]*>"), "")
                                 .split("\n").forEachIndexed { index, instruction ->
                                     append("${index + 1}.\t${instruction}\n")
