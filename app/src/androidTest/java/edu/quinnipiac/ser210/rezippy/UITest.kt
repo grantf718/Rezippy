@@ -31,11 +31,9 @@ class UITest {
 
     @Test
     fun recipeListDisplaysCorrectly() {
-        val randomRecipes = RandomRecipes(
-            recipes = List(3) { index ->
-                sampleRecipe.copy(title = "Coconut Dinner $index")
-            }
-        )
+        val recipes = List(3) { index ->
+            sampleRecipe.copy(title = "Coconut Dinner $index")
+        }
 
         composeTestRule.setContent {
             val navController = rememberNavController()
@@ -46,13 +44,13 @@ class UITest {
                 onToggleTheme = { isDarkMode = !isDarkMode }
             ) {
                 HomeScreen(
-                    randomRecipes = randomRecipes,
+                    recipes = recipes,
                     navController = navController
                 )
             }
         }
 
-        randomRecipes.recipes.forEachIndexed { index, recipe ->
+        recipes.forEachIndexed { index, recipe ->
             composeTestRule
                 .onNodeWithText(recipe.title)
                 .assertExists()
@@ -69,32 +67,34 @@ val sampleRecipe = Recipe(
     dairyFree = false,
     diets = listOf("diet"),
     dishTypes = listOf("a dish"),
-    extendedIngredients = listOf(ExtendedIngredient(
-        aisle = "1",
-        amount = 2.0,
-        consitency = null,
-        consistency = null,
-        id = 1,
-        image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.polproduct.nl%2Fproduct%2Fcoconut-milk%2F&psig=AOvVaw3MnDU9MsCqaCTrEbFlbhSY&ust=1746127011253000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPjplpa8gI0DFQAAAAAdAAAAABAJ",
-        measures = Measures(
-            metric = Metric(
-                amount = 1.0,
-                unitLong = "kilomile",
-                unitShort = "km"
+    extendedIngredients = listOf(
+        ExtendedIngredient(
+            aisle = "1",
+            amount = 2.0,
+            consitency = null,
+            consistency = null,
+            id = 1,
+            image = "https://www.google.com/url?sa=i&url=https%3A%2F%2Fwww.polproduct.nl%2Fproduct%2Fcoconut-milk%2F&psig=AOvVaw3MnDU9MsCqaCTrEbFlbhSY&ust=1746127011253000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCPjplpa8gI0DFQAAAAAdAAAAABAJ",
+            measures = Measures(
+                metric = Metric(
+                    amount = 1.0,
+                    unitLong = "kilomile",
+                    unitShort = "km"
+                ),
+                us = Us(
+                    amount = 1.0,
+                    unitLong = "foot",
+                    unitShort = "ft"
+                )
             ),
-            us = Us(
-                amount = 1.0,
-                unitLong = "foot",
-                unitShort = "ft"
-            )
-        ),
-        meta = listOf("metas"),
-        name = "Coconut",
-        nameClean = null,
-        original = "idk",
-        originalName = "Coconut",
-        unit = "1"
-    )),
+            meta = listOf("metas"),
+            name = "Coconut",
+            nameClean = null,
+            original = "idk",
+            originalName = "Coconut",
+            unit = "1"
+        )
+    ),
     gaps = "gaps",
     glutenFree = false,
     healthScore = 1,
@@ -122,5 +122,8 @@ val sampleRecipe = Recipe(
     veryPopular = true,
     weightWatcherSmartPoints = 0,
     whole30 = false,
-    winePairing = null
+    winePairing = null,
+    cookingMinutes = null,
+    originalId = null,
+    preparationMinutes = null
 )
