@@ -61,15 +61,16 @@ class AIViewModel: ViewModel() {
                     Log.d("Gemini", "AI Response Success")
 
                     val candidate = response.body()?.candidates?.get(0)
-                    val functionCall = candidate?.content?.parts?.get(0)?.functionCall
+                    val currentFunction = candidate?.content?.parts?.get(0)?.functionCall
 
                     // Update chat history with AI response
-                    if (functionCall != null) {
-                        Log.d("Gemini", "Function Call (finishReason: ${candidate.finishReason}) ${functionCall.name} params: ${functionCall.args}")
+                    if (currentFunction != null) {
+                        Log.d("Gemini", "Function Call (finishReason: ${candidate.finishReason}) ${currentFunction.name} params: ${currentFunction.args}")
                         addChatHistory(
                             role = "model",
-                            message = "*Function call: ${functionCall.name}*"
+                            message = "*Function call: ${currentFunction.name}*"
                         )
+                        _functionCall.value = currentFunction
                     }
                     else {
                         addChatHistory(

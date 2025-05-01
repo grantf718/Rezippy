@@ -46,7 +46,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             var isDarkMode by remember { mutableStateOf(false) }
-            RezippyApp(
+            RezippyAppTheme(
                 useDarkTheme = isDarkMode,
                 onToggleTheme = { isDarkMode = !isDarkMode }
             ) {
@@ -61,7 +61,7 @@ class MainActivity : ComponentActivity() {
 }
 
 @Composable
-fun RezippyApp(
+fun RezippyAppTheme(
     useDarkTheme: Boolean,
     onToggleTheme: () -> Unit,
     content: @Composable () -> Unit

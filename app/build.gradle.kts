@@ -87,6 +87,7 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.lottie.compose)
+    implementation(libs.androidx.ui.test.junit4.android)
     testImplementation(libs.junit)
     testImplementation (libs.kotlinx.coroutines.test)
     androidTestImplementation(libs.androidx.junit)

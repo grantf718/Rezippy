@@ -13,6 +13,15 @@
         </DropdownSelection>
         <DialogSelection />
       </SelectionState>
+<<<<<<< HEAD
+      <SelectionState runConfigName="ItemTest">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+      <SelectionState runConfigName="recipeListDisplaysCorrectly()">
+        <option name="selectionMode" value="DROPDOWN" />
+      </SelectionState>
+=======
+>>>>>>> 02fcef54ba4787d636fea15e7e31ebb91152aa4f
     </selectionStates>
   </component>
 </project>
